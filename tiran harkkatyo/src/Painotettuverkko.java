@@ -10,5 +10,6 @@
 public class Painotettuverkko {
 
     Kaari e;
+    Solmu v;
     
 }
