@@ -1,4 +1,4 @@
-
+/*
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.TreeSet;
@@ -52,4 +52,4 @@ public class Kruskal {
     public TreeSet<Kaari> palautaVirittavapuu() {
         return this.virittavapuu;
     }
-}
+}*/

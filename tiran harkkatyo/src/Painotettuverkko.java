@@ -7,30 +7,51 @@
  *
  * @author Taneli
  */
-import java.util.ArrayList;
+import java.util.TreeSet;
 
+/**
+ * Painotettu verkko koostuu V määrästä solmuja ja solmut tuntevat kaarensa.
+ * Yhdessä ne muodostavat verkon jossa kaarilla on painot ja kahden solmun
+ * välillä on vain 1 kaari.
+ *
+ */
 public class Painotettuverkko {
 
-    ArrayList<Solmu> solmut;
+    TreeSet<Solmu> solmut; //Solmut puu-rakenteen muodossa.
 
     public Painotettuverkko() {
-        solmut = new ArrayList<Solmu>();
+        solmut = new TreeSet<Solmu>();
     }
 
-    public ArrayList<Solmu> palautaVerkko() {
+    public TreeSet<Solmu> palautaVerkko() {
         return solmut;
     }
 
+    /**
+     *
+     * Lisätään solmu, jolla on oltava naapuri ja niiden välillä kaaren paino.
+     * Sekä naapuri että itse solmu lisätään.
+     *
+     *
+     * @param solmu
+     * @param naapuri
+     * @param paino
+     */
     public void lisaaSolmu(int solmu, int naapuri, int paino) {
         Solmu uusi;
-        uusi = new Solmu(solmu);
         Solmu vierus;
+        uusi = new Solmu(solmu);
         vierus = new Solmu(naapuri);
-        uusi.lisaaKaari(vierus, paino);
+        uusi.lisaaKaari(naapuri, paino);
         solmut.add(uusi);
         solmut.add(vierus);
     }
 
+    /**
+     * Tulostetaan itse verkko jossakin muodossa.
+     *
+     * @return solmut
+     */
     @Override
     public String toString() {
         return "Verkko : " + solmut;

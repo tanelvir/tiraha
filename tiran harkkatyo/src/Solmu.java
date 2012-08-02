@@ -1,10 +1,22 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
+/**
+ *
+ * @author Taneli
+ */
 import java.util.ArrayList;
 
+/**
+ * Solmulla voi olla E määrä kaaria.
+ *
+ */
 class Solmu implements Comparable<Solmu> {
 
     ArrayList<Kaari> kaaret;
-    int numero;
+    int numero; //Tämä tarkoittaa ikäänkuin solmun nimeä. Numerojärjestystä voidaan käyttää algoritmissa.
 
     public Solmu(int numero) {
         this.numero = numero;
@@ -19,15 +31,17 @@ class Solmu implements Comparable<Solmu> {
         return kaaret;
     }
 
-    public void lisaaKaari(Solmu naapuri, int paino) {
+    public void lisaaKaari(int naapuri, int paino) {
         Kaari uusi;
-        uusi = new Kaari(this, naapuri, paino);
+        Solmu solmu;
+        solmu = new Solmu(naapuri);
+        uusi = new Kaari(this, solmu, paino);
         kaaret.add(uusi);
     }
 
     @Override
     public String toString() {
-        return "Solmun kaaret: " + kaaret + " yhteensä siis " + kaaret.size() + " kaarta";
+        return ""+this.numero;
     }
 
     public int compareTo(Solmu solmu) {
