@@ -10,17 +10,17 @@
 import java.util.ArrayList;
 
 public class Painotettuverkko {
-    
+
     ArrayList<Solmu> solmut;
-    
+
     public Painotettuverkko() {
         solmut = new ArrayList<Solmu>();
     }
-    
+
     public ArrayList<Solmu> palautaVerkko() {
         return solmut;
     }
-    
+
     public void lisaaSolmu(int solmu, int naapuri, int paino) {
         Solmu uusi;
         uusi = new Solmu(solmu);
@@ -28,8 +28,9 @@ public class Painotettuverkko {
         vierus = new Solmu(naapuri);
         uusi.lisaaKaari(vierus, paino);
         solmut.add(uusi);
+        solmut.add(vierus);
     }
-    
+
     @Override
     public String toString() {
         return "Verkko : " + solmut;

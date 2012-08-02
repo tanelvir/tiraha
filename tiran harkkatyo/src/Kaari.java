@@ -1,6 +1,6 @@
 
-class Kaari implements Comparable<Kaari>
-{
+class Kaari implements Comparable<Kaari> {
+
     Solmu solmu1, solmu2;
     int paino;
 
