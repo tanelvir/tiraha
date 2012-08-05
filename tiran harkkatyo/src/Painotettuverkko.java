@@ -7,7 +7,7 @@
  *
  * @author Taneli
  */
-import java.util.TreeSet;
+import java.util.ArrayList;
 
 /**
  * Painotettu verkko koostuu V määrästä solmuja ja solmut tuntevat kaarensa.
@@ -17,13 +17,13 @@ import java.util.TreeSet;
  */
 public class Painotettuverkko {
 
-    TreeSet<Solmu> solmut; //Solmut puu-rakenteen muodossa.
+    ArrayList<Solmu> solmut; //Solmut puu-rakenteen muodossa.
 
     public Painotettuverkko() {
-        solmut = new TreeSet<Solmu>();
+        solmut = new ArrayList<Solmu>();
     }
 
-    public TreeSet<Solmu> palautaVerkko() {
+    public ArrayList<Solmu> palautaVerkko() {
         return solmut;
     }
 
