@@ -25,6 +25,10 @@ class Kaari implements Comparable<Kaari> {
         this.solmu2 = solmu2;
         this.paino = paino;
     }
+    
+    public void setPaino(int paino) {
+        this.paino = paino;
+    }
 
     public int Solmu1() {
         return solmu1.numero;

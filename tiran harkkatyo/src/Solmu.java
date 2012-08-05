@@ -7,7 +7,7 @@
  *
  * @author Taneli
  */
-import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 /**
  * Solmulla voi olla E määrä kaaria.
@@ -15,19 +15,37 @@ import java.util.ArrayList;
  */
 class Solmu implements Comparable<Solmu> {
 
-    ArrayList<Kaari> kaaret;
+    PriorityQueue<Kaari> kaaret;
     int numero; //Tämä tarkoittaa ikäänkuin solmun nimeä. Numerojärjestystä voidaan käyttää algoritmissa.
-
+    boolean lapikayty; //Onko solmu jo virittävässä puussa.
+    
+    public Solmu() {      
+        kaaret = new PriorityQueue<Kaari>();
+        lapikayty = false;
+    }
+    
     public Solmu(int numero) {
         this.numero = numero;
-        kaaret = new ArrayList<Kaari>();
+        kaaret = new PriorityQueue<Kaari>();
+    }
+    
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+    
+    public void kaytyLapi() {
+        this.lapikayty = true;
     }
 
-    public int numero() {
+    public int returnNumero() {
         return numero;
     }
+    
+    public boolean onkoKayty() {
+        return lapikayty;
+    }
 
-    public ArrayList<Kaari> palautaKaaret() {
+    public PriorityQueue<Kaari> palautaKaaret() {
         return kaaret;
     }
 
@@ -37,6 +55,12 @@ class Solmu implements Comparable<Solmu> {
         solmu = new Solmu(naapuri);
         uusi = new Kaari(this, solmu, paino);
         kaaret.add(uusi);
+    }
+    
+    public void nollaaKaaret() {
+        for (Kaari e : kaaret) {
+            e.setPaino(Integer.MAX_VALUE);
+        }
     }
 
     @Override
