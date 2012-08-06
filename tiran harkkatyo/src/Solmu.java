@@ -57,6 +57,14 @@ class Solmu implements Comparable<Solmu> {
         kaaret.add(uusi);
     }
     
+    public void paivitaKaari(int naapuri, int paino) {
+        Kaari uusi;
+        Solmu solmu;
+        solmu = new Solmu(naapuri);
+        uusi = new Kaari(this, solmu, paino);
+        kaaret.add(uusi);
+    }
+    
     public void nollaaKaaret() {
         for (Kaari e : kaaret) {
             e.setPaino(Integer.MAX_VALUE);

@@ -23,5 +23,4 @@ public class Prim {
         }
         return T;
     }
-    
 }
