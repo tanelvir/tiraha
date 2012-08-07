@@ -10,7 +10,7 @@ public class Prim {
         T = nollaaKaaret(G);
         int index = G.palautaVerkko().indexOf(r);
         Kaari pieninkaari = r.palautaKaaret().poll();
-        T.palautaVerkko().get(index).lisaaKaari(pieninkaari.paino, pieninkaari.Solmu2());
+        T.palautaVerkko().get(index).lisaaKaari(pieninkaari.paino, pieninkaari.Solmu2().numero);
         T.palautaVerkko().get(index).kaytyLapi();
 
     }

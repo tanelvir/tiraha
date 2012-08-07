@@ -41,10 +41,8 @@ public class Painotettuverkko {
         Solmu uusi;
         Solmu vierus;
         uusi = new Solmu(solmu);
-        vierus = new Solmu(naapuri);
         uusi.lisaaKaari(naapuri, paino);
         solmut.add(uusi);
-        solmut.add(vierus);
     }
 
     /**

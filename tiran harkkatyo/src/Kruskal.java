@@ -1,55 +1,58 @@
-/*
-import java.util.ArrayList;
+
 import java.util.PriorityQueue;
-import java.util.TreeSet;
 
 public class Kruskal {
 
-    ArrayList<Solmu> lapikaydyt;
-    TreeSet<Kaari> virittavapuu;
-    PriorityQueue<Kaari> kaaret;
+    PriorityQueue<Kaari> kaikkikaaret;
+    Painotettuverkko T;
 
     public Kruskal(Painotettuverkko G) {
-        ArrayList<Solmu> lapikaydyt = new ArrayList<Solmu>();
-        TreeSet<Kaari> virittavapuu = new TreeSet<Kaari>();
-        PriorityQueue<Kaari> kaaret = new PriorityQueue<Kaari>();
 
-        kaaret = taytaKaaret(G);
+        kaikkikaaret = new PriorityQueue<Kaari>();
+        T = new Painotettuverkko();
 
-        while (lapikaydyt.size() != G.palautaVerkko().size()) {
-            etsiPieninkaari(kaaret);
-            this.kaaret = kaaret;
-        }
-
-    }
-
-    public PriorityQueue taytaKaaret(Painotettuverkko G) {
-        int koko = 0;
-        ArrayList<Kaari> kaarilista = new ArrayList<Kaari>();
-        koko = G.palautaVerkko().size();
-        PriorityQueue<Kaari> listakaarista = new PriorityQueue<Kaari>();
-        for (int i = 0; i < koko; i++) {
-            kaarilista = G.palautaVerkko().get(i).palautaKaaret();
-            for (int j = 0; j < kaarilista.size(); j++) {
-                listakaarista.add(kaarilista.get(j));
+        for (Solmu v : G.palautaVerkko()) {
+            for (Kaari e : v.palautaKaaret()) {
+                kaikkikaaret.add(e);
             }
         }
-        return listakaarista;
+
+        T = kokoaVerkko(kaikkikaaret, G);
     }
 
-    public PriorityQueue etsiPieninkaari(PriorityQueue<Kaari> lista) {
-        Kaari pieninkaari;
-        pieninkaari = lista.poll();
-        while (lapikaydyt.contains(pieninkaari.solmu1) && lapikaydyt.contains(pieninkaari.solmu2)) {
-            pieninkaari = lista.poll();
+    public Painotettuverkko kokoaVerkko(PriorityQueue<Kaari> kaaret, Painotettuverkko X) {
+        Kaari kaari = kaaret.poll();
+        Solmu tama = kaari.Solmu1();
+        Solmu naapuri = kaari.Solmu2();
+        while (kaaret.isEmpty()) {
+            if (X.palautaVerkko().contains(tama) && X.palautaVerkko().contains(naapuri)) {
+                kaari = kaaret.poll();
+                tama = kaari.Solmu1();
+                naapuri = kaari.Solmu2();
+            } else if (!X.palautaVerkko().contains(tama) && X.palautaVerkko().contains(naapuri)) {
+                tama.kaytyLapi();
+                X.lisaaSolmu(tama.numero, naapuri.numero, kaari.paino);
+            } else if (X.palautaVerkko().contains(tama) && !X.palautaVerkko().contains(naapuri)) {
+                naapuri.kaytyLapi();
+                X.lisaaSolmu(naapuri.numero, tama.numero, kaari.paino);
+            } else {
+                tama.kaytyLapi();
+                naapuri.kaytyLapi();
+                X.lisaaSolmu(naapuri.numero, tama.numero, kaari.paino);
+            }
         }
-        virittavapuu.add(pieninkaari);
-        lapikaydyt.add(pieninkaari.solmu1);
-        lapikaydyt.add(pieninkaari.solmu2);
-        return lista;
+        return X;
+    }
+    public Painotettuverkko palautaT() {
+        return T;
     }
 
-    public TreeSet<Kaari> palautaVirittavapuu() {
-        return this.virittavapuu;
+    public static void main(String[] args) {
+        Painotettuverkko verkko = new Painotettuverkko();
+        verkko.lisaaSolmu(1, 2, 2);
+        verkko.lisaaSolmu(2, 3, 3);
+        verkko.palautaVerkko().get(3).lisaaKaari(1, 1);
+        verkko.lisaaSolmu(4, 2, 5);
+        verkko.palautaVerkko().get(4).lisaaKaari(3, 4);
     }
-}*/
+}

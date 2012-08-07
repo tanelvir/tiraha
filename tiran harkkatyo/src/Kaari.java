@@ -30,16 +30,20 @@ class Kaari implements Comparable<Kaari> {
         this.paino = paino;
     }
 
-    public int Solmu1() {
-        return solmu1.numero;
+    public Solmu Solmu1() {
+        return solmu1;
     }
 
-    public int Solmu2() {
-        return solmu2.numero;
+    public Solmu Solmu2() {
+        return solmu2;
     }
 
     public int kaarenPaino() {
         return paino;
+    }
+    
+    public boolean onkoNaapurilapikayty() {
+        return solmu2.lapikayty;
     }
 
     /**
