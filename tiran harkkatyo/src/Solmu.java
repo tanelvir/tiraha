@@ -18,21 +18,21 @@ class Solmu implements Comparable<Solmu> {
     PriorityQueue<Kaari> kaaret;
     int numero; //Tämä tarkoittaa ikäänkuin solmun nimeä. Numerojärjestystä voidaan käyttää algoritmissa.
     boolean lapikayty; //Onko solmu jo virittävässä puussa.
-    
-    public Solmu() {      
+
+    public Solmu() {
         kaaret = new PriorityQueue<Kaari>();
         lapikayty = false;
     }
-    
+
     public Solmu(int numero) {
         this.numero = numero;
         kaaret = new PriorityQueue<Kaari>();
     }
-    
+
     public void setNumero(int numero) {
         this.numero = numero;
     }
-    
+
     public void kaytyLapi() {
         this.lapikayty = true;
     }
@@ -40,7 +40,7 @@ class Solmu implements Comparable<Solmu> {
     public int returnNumero() {
         return numero;
     }
-    
+
     public boolean onkoKayty() {
         return lapikayty;
     }
@@ -56,7 +56,7 @@ class Solmu implements Comparable<Solmu> {
         uusi = new Kaari(this, solmu, paino);
         kaaret.add(uusi);
     }
-    
+
     public void paivitaKaari(int naapuri, int paino) {
         Kaari uusi;
         Solmu solmu;
@@ -64,7 +64,7 @@ class Solmu implements Comparable<Solmu> {
         uusi = new Kaari(this, solmu, paino);
         kaaret.add(uusi);
     }
-    
+
     public void nollaaKaaret() {
         for (Kaari e : kaaret) {
             e.setPaino(Integer.MAX_VALUE);
@@ -73,7 +73,7 @@ class Solmu implements Comparable<Solmu> {
 
     @Override
     public String toString() {
-        return ""+this.numero;
+        return "" + this.numero;
     }
 
     public int compareTo(Solmu solmu) {
