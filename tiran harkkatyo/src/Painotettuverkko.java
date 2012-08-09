@@ -30,7 +30,7 @@ public class Painotettuverkko {
     /**
      *
      * Lisätään solmu, jolla on oltava naapuri ja niiden välillä kaaren paino.
-     * Sekä naapuri että itse solmu lisätään.
+     * Vain itse solmu lisätään.
      *
      *
      * @param solmu

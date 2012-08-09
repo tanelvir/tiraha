@@ -45,21 +45,7 @@ public class TiranHarkkatyo {
 
      }*/
     public static void main(String[] args) {
-        Painotettuverkko verkko = new Painotettuverkko();
-        Painotettuverkko puu = new Painotettuverkko();
-        verkko.lisaaSolmu(1, 2, 2);
-        verkko.lisaaSolmu(2, 3, 3);
-        verkko.lisaaSolmu(3, 1, 1);
-        verkko.lisaaSolmu(4, 2, 5);
-        verkko.palautaVerkko().get(3).lisaaKaari(3, 4);
-        Kruskal kruskal;
-        kruskal = new Kruskal(verkko);
-        puu = kruskal.kokoaVerkko(verkko);
         
-        /*System.out.println(puu.palautaVerkko().get(0).palautaKaaret());
-        System.out.println(puu.palautaVerkko().get(1).palautaKaaret());
-        System.out.println(puu.palautaVerkko().get(2).palautaKaaret());
-        System.out.println(puu.palautaVerkko().get(3).palautaKaaret());*/
 
 
 

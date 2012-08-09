@@ -79,7 +79,7 @@ public class Minimikeko {
 
     /**
      * Katsotaan onko lapsi pienempi kuin vanhempansa ja onko lapsen viereinen
-     * solmu suurempi kuin se itse.
+     * solmu suurempi kuin se itse. Jos ei ole niin siirretään se oikealle paikalleen.
      *
      * @param k
      * @param solmu

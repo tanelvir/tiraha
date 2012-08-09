@@ -26,6 +26,12 @@ class Kaari implements Comparable<Kaari> {
         this.paino = paino;
     }
     
+    /**
+     * Painoa voidaan vaihtaa.
+     * 
+     * @param paino 
+     */
+    
     public void setPaino(int paino) {
         this.paino = paino;
     }
@@ -41,6 +47,12 @@ class Kaari implements Comparable<Kaari> {
     public int kaarenPaino() {
         return paino;
     }
+    
+    /**
+     * Voidaan katsoa onko naapuri jo virittävässä puussa.
+     * 
+     * @return 
+     */
     
     public boolean onkoNaapurilapikayty() {
         return solmu2.lapikayty;

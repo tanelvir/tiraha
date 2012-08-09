@@ -56,6 +56,7 @@ public class tirahaTest {
     @Test
     public void solmunVertaus() {
         G.lisaaSolmu(1, 2, 3);
+        G.lisaaSolmu(2, 3, 4);
         if (G.palautaVerkko().get(1).compareTo(G.palautaVerkko().get(0)) == 1) {
             System.out.println("Solmu " + G.palautaVerkko().get(1) + " on suurempi kuin solmu " + G.palautaVerkko().get(0));
         }
@@ -73,5 +74,28 @@ public class tirahaTest {
             System.out.println("" + uno + " on pienempi kuin " + duo);
         }
         assertTrue(uno.compareTo(duo) == -1);
+    }
+
+    @Test
+    public void priminTestaus1() {
+        G.lisaaSolmu(1, 2, 3);
+        G.lisaaSolmu(3, 4, 1);
+        Prim prim;
+        prim = new Prim(G, G.palautaVerkko().get(0));
+        G = prim.nollaaKaaret(G);
+        assertTrue(G.palautaVerkko().get(0).palautaKaaret().poll().paino == Integer.MAX_VALUE);
+    }
+    
+    @Test
+    public void priminTestaus2() {
+        G.lisaaSolmu(1, 2, 3);
+        G.lisaaSolmu(3, 4, 1);
+        Solmu solmu = new Solmu(3);
+        solmu.lisaaKaari(4, 2);
+        solmu.lisaaKaari(5, 3);
+        Prim prim;
+        prim = new Prim(G, G.palautaVerkko().get(0));
+        prim.siirraKaaret(solmu);
+        assertTrue(prim.kaikkikaaret.size() == 2);
     }
 }

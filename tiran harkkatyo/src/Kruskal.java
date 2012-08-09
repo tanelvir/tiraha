@@ -1,10 +1,25 @@
 
 import java.util.PriorityQueue;
 
+/**
+ * Kruskalin algoritmi. Algoritmi tuntee listan kaikista verkon kaarista.
+ * Virittävä puu kootaan pikkuhiljaa lisäämällä pienimpiä kaaria, kunnes kaikki
+ * solmut on käyty läpi ja puu on yhtenäinen eli joka solmusta pääsee jotakin
+ * reittiä toiseen solmuun.
+ *
+ *
+ * @author tanelvir
+ */
 public class Kruskal {
 
     PriorityQueue<Kaari> kaikkikaaret;
-    Painotettuverkko T;
+    Painotettuverkko T; //Virittävä puu
+    
+    /**
+     * Annetaan verkko, aletaan rakentamaan virittävää puuta.
+     * 
+     * @param G 
+     */
 
     public Kruskal(Painotettuverkko G) {
 
@@ -18,6 +33,13 @@ public class Kruskal {
         }
         System.out.println(kaikkikaaret);
     }
+    
+    /**
+     * Tämä metodi ei toimi jostain kumman syystä. Heittää erroria. Missäköhän on vika...
+     * 
+     * @param X
+     * @return 
+     */
 
     public Painotettuverkko kokoaVerkko(Painotettuverkko X) {
         Kaari kaari = kaikkikaaret.poll();
@@ -62,10 +84,20 @@ public class Kruskal {
 
     public static void main(String[] args) {
         Painotettuverkko verkko = new Painotettuverkko();
+        Painotettuverkko puu = new Painotettuverkko();
         verkko.lisaaSolmu(1, 2, 2);
         verkko.lisaaSolmu(2, 3, 3);
-        verkko.palautaVerkko().get(3).lisaaKaari(1, 1);
+        verkko.lisaaSolmu(3, 1, 1);
         verkko.lisaaSolmu(4, 2, 5);
-        verkko.palautaVerkko().get(4).lisaaKaari(3, 4);
+        verkko.palautaVerkko().get(3).lisaaKaari(3, 4);
+        Kruskal kruskal;
+        kruskal = new Kruskal(verkko);
+        puu = kruskal.kokoaVerkko(verkko);
+        
+        /*System.out.println(puu.palautaVerkko().get(0).palautaKaaret());
+        System.out.println(puu.palautaVerkko().get(1).palautaKaaret());
+        System.out.println(puu.palautaVerkko().get(2).palautaKaaret());
+        System.out.println(puu.palautaVerkko().get(3).palautaKaaret());*/
+        
     }
 }
