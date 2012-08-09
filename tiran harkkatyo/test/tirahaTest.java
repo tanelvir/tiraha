@@ -37,6 +37,7 @@ public class tirahaTest {
     @Test
     public void solmunLisays() {
         G.lisaaSolmu(1, 2, 3);
+        G.lisaaSolmu(2, 3, 5);
         System.out.println(G.palautaVerkko().size());
         System.out.println(G.palautaVerkko().get(0).palautaKaaret().peek().paino);
         assertTrue(G.palautaVerkko().size() == 2);

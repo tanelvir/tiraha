@@ -9,42 +9,55 @@ public class Kruskal {
     public Kruskal(Painotettuverkko G) {
 
         kaikkikaaret = new PriorityQueue<Kaari>();
-        T = new Painotettuverkko();
+        T = G;
 
         for (Solmu v : G.palautaVerkko()) {
             for (Kaari e : v.palautaKaaret()) {
                 kaikkikaaret.add(e);
             }
         }
-
-        T = kokoaVerkko(kaikkikaaret, G);
+        System.out.println(kaikkikaaret);
     }
 
-    public Painotettuverkko kokoaVerkko(PriorityQueue<Kaari> kaaret, Painotettuverkko X) {
-        Kaari kaari = kaaret.poll();
+    public Painotettuverkko kokoaVerkko(Painotettuverkko X) {
+        Kaari kaari = kaikkikaaret.poll();
         Solmu tama = kaari.Solmu1();
         Solmu naapuri = kaari.Solmu2();
-        while (kaaret.isEmpty()) {
+        while (T.palautaVerkko().size() == X.palautaVerkko().size()) {
             if (X.palautaVerkko().contains(tama) && X.palautaVerkko().contains(naapuri)) {
-                kaari = kaaret.poll();
+                kaari = kaikkikaaret.poll();
+                System.out.println(kaari);
                 tama = kaari.Solmu1();
                 naapuri = kaari.Solmu2();
-            } else if (!X.palautaVerkko().contains(tama) && X.palautaVerkko().contains(naapuri)) {
+            } else if (!(X.palautaVerkko().contains(tama)) && X.palautaVerkko().contains(naapuri)) {
                 tama.kaytyLapi();
+                System.out.println("tama: " + tama);
                 X.lisaaSolmu(tama.numero, naapuri.numero, kaari.paino);
-            } else if (X.palautaVerkko().contains(tama) && !X.palautaVerkko().contains(naapuri)) {
+                kaari = kaikkikaaret.poll();
+                System.out.println(kaari);
+                tama = kaari.Solmu1();
+                naapuri = kaari.Solmu2();
+            } else if (X.palautaVerkko().contains(tama) && !(X.palautaVerkko().contains(naapuri))) {
                 naapuri.kaytyLapi();
+                System.out.println("naapuri: " + naapuri);
                 X.lisaaSolmu(naapuri.numero, tama.numero, kaari.paino);
+                System.out.println(kaari);
+                kaari = kaikkikaaret.poll();
+                tama = kaari.Solmu1();
+                naapuri = kaari.Solmu2();
             } else {
                 tama.kaytyLapi();
                 naapuri.kaytyLapi();
+                System.out.println("molemmat: " + tama + ", " + naapuri);
                 X.lisaaSolmu(naapuri.numero, tama.numero, kaari.paino);
+                X.lisaaSolmu(tama.numero, naapuri.numero, kaari.paino);
+                kaari = kaikkikaaret.poll();
+                System.out.println(kaari);
+                tama = kaari.Solmu1();
+                naapuri = kaari.Solmu2();
             }
         }
         return X;
-    }
-    public Painotettuverkko palautaT() {
-        return T;
     }
 
     public static void main(String[] args) {
