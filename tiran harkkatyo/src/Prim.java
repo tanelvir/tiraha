@@ -19,10 +19,10 @@ public class Prim {
     PriorityQueue<Kaari> kaikkikaaret;
 
     /**
-     * Annetaan verkko sekä aloitussolmu r, josta lähdetään liikkeelle.
-     * Luodaan virittävä puu T, johon aletaan lisäämään kaaria.
-     * Nollausmetodissa siis pitäisi T:n kaarien muuttua äärettömiksi ja niitä
-     * aletaan päivittämään ajan tasalle.
+     * Annetaan verkko sekä aloitussolmu r, josta lähdetään liikkeelle. Luodaan
+     * virittävä puu T, johon aletaan lisäämään kaaria. Nollausmetodissa siis
+     * pitäisi T:n kaarien muuttua äärettömiksi ja niitä aletaan päivittämään
+     * ajan tasalle.
      *
      * @param G
      * @param r
@@ -40,15 +40,21 @@ public class Prim {
         T.palautaVerkko().get(index).lisaaKaari(pieninkaari.Solmu2().numero, pieninkaari.paino);
         T.palautaVerkko().get(index).kaytyLapi();
         lapikaydytsolmut.add(pieninkaari.solmu1);
-        //siirraKaaret(pieninkaari.solmu1);
-        /*index = G.palautaVerkko().indexOf(pieninkaari.solmu2);
-         T.palautaVerkko().get(index).lisaaKaari(pieninkaari.paino, pieninkaari.Solmu1().numero);
-         T.palautaVerkko().get(index).kaytyLapi();
-         lapikaydytsolmut.add(pieninkaari.solmu2);
-         siirraKaaret(pieninkaari.solmu2);*/
+        siirraKaaret(pieninkaari.solmu1);
+        index = G.palautaVerkko().indexOf(pieninkaari.solmu2);
+        T.palautaVerkko().get(index + 1).lisaaKaari(pieninkaari.Solmu1().numero, pieninkaari.paino);
+        T.palautaVerkko().get(index + 1).kaytyLapi();
+        lapikaydytsolmut.add(pieninkaari.solmu2);
+        siirraKaaret(pieninkaari.solmu2);
 
         System.out.println(T.palautaVerkko().get(0).palautaKaaret());
-        //System.out.println(T.palautaVerkko().get(1).palautaKaaret());
+        System.out.println(T.palautaVerkko().get(1).palautaKaaret());
+        System.out.println(lapikaydytsolmut);
+
+
+        for (int i = 0; i < T.palautaVerkko().size(); i++) {
+            siirraKaaret(etsiUusireitti().solmu2);
+        }
     }
 
     /**
@@ -60,14 +66,12 @@ public class Prim {
      * @return
      */
     public Painotettuverkko nollaaKaaret(Painotettuverkko G) {
-        Object X;
-        Solmu v;       
-        X = G.clone();
+        Painotettuverkko X;
         X = new Painotettuverkko();
         System.out.println("1: " + G.palautaVerkko().get(1).palautaKaaret());
-        for (int i = 0; i < X.palautaVerkko().size(); i++) {
-            v = X.palautaVerkko().get(i);
-            v.nollaaKaaret();
+        for (int i = 0; i < G.palautaVerkko().size(); i++) {
+            Solmu v = new Solmu(G.palautaVerkko().get(i).numero);
+            X.lisaaSolmu(v.numero);
         }
         System.out.println("2: " + G.palautaVerkko().get(1).palautaKaaret());
         return X;
@@ -80,12 +84,21 @@ public class Prim {
      * @param solmu
      */
     public void siirraKaaret(Solmu solmu) {
-        Kaari kaari;
         while (!solmu.palautaKaaret().isEmpty()) {
-            kaari = solmu.palautaKaaret().poll();
+            Kaari kaari = solmu.palautaKaaret().poll();
             kaikkikaaret.add(kaari);
         }
 
+    }
+
+    public Kaari etsiUusireitti() {
+        Kaari pienin;
+        this.kaikkikaaret = kaikkikaaret;
+        pienin = kaikkikaaret.poll();
+        while (kaikkikaaret.contains(pienin.solmu2)) {
+            pienin = kaikkikaaret.poll();
+        }
+        return pienin;
     }
 
     /*public Solmu etsiPieninkaari() {
