@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * välillä on vain 1 kaari.
  *
  */
-public class Painotettuverkko {
+public class Painotettuverkko implements Cloneable {
 
     ArrayList<Solmu> solmut; //Solmut puu-rakenteen muodossa.
 
@@ -26,6 +26,18 @@ public class Painotettuverkko {
     public ArrayList<Solmu> palautaVerkko() {
         return solmut;
     }
+    
+    public Object clone(Painotettuverkko G)
+      {
+          try
+      {
+              this.solmut = G.palautaVerkko().clone();
+          }
+      catch( CloneNotSupportedException e )
+      {
+              return null;
+          }
+      } 
 
     /**
      *

@@ -60,10 +60,10 @@ public class Prim {
      * @return
      */
     public Painotettuverkko nollaaKaaret(Painotettuverkko G) {
-        Painotettuverkko X;
-        Solmu v;
+        Object X;
+        Solmu v;       
+        X = G.clone();
         X = new Painotettuverkko();
-        X = G;
         System.out.println("1: " + G.palautaVerkko().get(1).palautaKaaret());
         for (int i = 0; i < X.palautaVerkko().size(); i++) {
             v = X.palautaVerkko().get(i);
