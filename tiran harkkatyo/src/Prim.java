@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Prim {
 
-    ArrayList<Solmu> lapikaydytsolmut;
+    PriorityQueue<Solmu> lapikaydytsolmut;
     Painotettuverkko T;
     Kaari pieninkaari;
     PriorityQueue<Kaari> kaikkikaaret;
@@ -29,23 +29,12 @@ public class Prim {
      */
     public Prim(Painotettuverkko G, Solmu r) {
 
-        lapikaydytsolmut = new ArrayList<Solmu>();
+        lapikaydytsolmut = new PriorityQueue<Solmu>();
         kaikkikaaret = new PriorityQueue<Kaari>();
         T = new Painotettuverkko();
         System.out.println("kaaret: " + r.palautaKaaret());
         T = nollaaKaaret(G);
-        int index = G.palautaVerkko().indexOf(r);
-        pieninkaari = r.palautaKaaret().poll();
-        System.out.println("pieninkaari: " + pieninkaari);
-        T.palautaVerkko().get(index).lisaaKaari(pieninkaari.Solmu2().numero, pieninkaari.paino);
-        T.palautaVerkko().get(index).kaytyLapi();
-        lapikaydytsolmut.add(pieninkaari.solmu1);
-        siirraKaaret(pieninkaari.solmu1);
-        index = G.palautaVerkko().indexOf(pieninkaari.solmu2);
-        T.palautaVerkko().get(index + 1).lisaaKaari(pieninkaari.Solmu1().numero, pieninkaari.paino);
-        T.palautaVerkko().get(index + 1).kaytyLapi();
-        lapikaydytsolmut.add(pieninkaari.solmu2);
-        siirraKaaret(pieninkaari.solmu2);
+        lapikaydytsolmut.add(r);
 
         System.out.println(T.palautaVerkko().get(0).palautaKaaret());
         System.out.println(T.palautaVerkko().get(1).palautaKaaret());
@@ -92,13 +81,19 @@ public class Prim {
     }
 
     public Kaari etsiUusireitti() {
-        Kaari pienin;
-        this.kaikkikaaret = kaikkikaaret;
-        pienin = kaikkikaaret.poll();
-        while (kaikkikaaret.contains(pienin.solmu2)) {
-            pienin = kaikkikaaret.poll();
+        Kaari pieninKaari;
+        Solmu solmu = lapikaydytsolmut.poll();
+        pieninKaari = solmu.etsiUusipieninkaari();
+        while (lapikaydytsolmut.isEmpty()) {
+            if (T.palautaKaikkikaaret().contains(pieninKaari)) {
+                solmu = lapikaydytsolmut.poll();
+                pieninKaari = solmu.etsiUusipieninkaari();
+            } else {
+                return pieninKaari;
+            }
         }
-        return pienin;
+        return null;
+
     }
 
     /*public Solmu etsiPieninkaari() {

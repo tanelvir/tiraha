@@ -16,17 +16,20 @@ import java.util.PriorityQueue;
 class Solmu implements Comparable<Solmu> {
 
     PriorityQueue<Kaari> kaaret;
+    PriorityQueue<Kaari> kaymattomatKaaret;
     int numero; //Tämä tarkoittaa ikäänkuin solmun nimeä. Numerojärjestystä voidaan käyttää algoritmissa.
     boolean lapikayty; //Onko solmu jo virittävässä puussa.
 
     public Solmu() {
         kaaret = new PriorityQueue<Kaari>();
+        kaymattomatKaaret = new PriorityQueue<Kaari>();
         lapikayty = false;
     }
 
     public Solmu(int numero) {
         this.numero = numero;
         kaaret = new PriorityQueue<Kaari>();
+        kaymattomatKaaret = new PriorityQueue<Kaari>();
         lapikayty = false;
     }
     
@@ -78,6 +81,20 @@ class Solmu implements Comparable<Solmu> {
         solmu = new Solmu(naapuri);
         uusi = new Kaari(this, solmu, paino);
         kaaret.add(uusi);
+        kaymattomatKaaret.add(uusi);
+    }
+    
+    public void lisaaKaymatonkaari(int naapuri, int paino) {
+        Kaari uusi;
+        Solmu solmu;
+        solmu = new Solmu(naapuri);
+        uusi = new Kaari(this, solmu, paino);
+        kaymattomatKaaret.add(uusi);
+    }
+    
+    public Kaari etsiUusipieninkaari() {
+        Kaari pieninKaari = kaymattomatKaaret.poll();
+        return pieninKaari;
     }
     
     /**
@@ -96,6 +113,6 @@ class Solmu implements Comparable<Solmu> {
     }
 
     public int compareTo(Solmu solmu) {
-        return (this.numero < solmu.numero) ? -1 : 1;
+        return (this.kaymattomatKaaret.peek().paino < solmu.kaymattomatKaaret.peek().paino) ? -1 : 1;
     }
 }

@@ -8,6 +8,7 @@
  * @author Taneli
  */
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 /**
  * Painotettu verkko koostuu V määrästä solmuja ja solmut tuntevat kaarensa.
@@ -33,6 +34,17 @@ public class Painotettuverkko {
 
     public ArrayList<Solmu> palautaVerkko() {
         return solmut;
+    }
+    
+    public PriorityQueue<Kaari> palautaKaikkikaaret() {
+        PriorityQueue<Kaari> kaaret = new PriorityQueue<Kaari>();
+        for (int i = 0; i < solmut.size(); i++) {
+            Solmu v = solmut.get(i);
+            while (!v.palautaKaaret().isEmpty()) {
+                kaaret.add(v.palautaKaaret().poll());
+            }
+        }
+        return kaaret;
     }
 
     /**
