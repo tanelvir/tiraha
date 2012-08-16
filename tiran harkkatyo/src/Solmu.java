@@ -19,18 +19,43 @@ class Solmu implements Comparable<Solmu> {
     PriorityQueue<Kaari> kaymattomatKaaret;
     int numero; //Tämä tarkoittaa ikäänkuin solmun nimeä. Numerojärjestystä voidaan käyttää algoritmissa.
     boolean lapikayty; //Onko solmu jo virittävässä puussa.
+    
+    /**
+     * Lisätään vain jokin solmu ilman numeroa.
+     */
 
     public Solmu() {
         kaaret = new PriorityQueue<Kaari>();
         kaymattomatKaaret = new PriorityQueue<Kaari>();
         lapikayty = false;
     }
+    
+    /**
+     * Lisätään solmu numeron kanssa.
+     * @param numero 
+     */
 
     public Solmu(int numero) {
         this.numero = numero;
         kaaret = new PriorityQueue<Kaari>();
         kaymattomatKaaret = new PriorityQueue<Kaari>();
         lapikayty = false;
+    }
+    
+    /**
+     * Lisätään solmu numeron, naapurin ja painon kanssa
+     * 
+     * @param tama
+     * @param naapuri
+     * @param paino 
+     */
+    
+    public Solmu(int tama, int naapuri, int paino) {
+        this.numero = tama;
+        kaaret = new PriorityQueue<Kaari>();
+        kaymattomatKaaret = new PriorityQueue<Kaari>();
+        lapikayty = false;
+        lisaaKaari(naapuri, paino);
     }
     
     /**
@@ -84,6 +109,13 @@ class Solmu implements Comparable<Solmu> {
         kaymattomatKaaret.add(uusi);
     }
     
+    /**
+     * Kaari, jota ei olla viellä käyty läpi.
+     * 
+     * @param naapuri
+     * @param paino 
+     */
+    
     public void lisaaKaymatonkaari(int naapuri, int paino) {
         Kaari uusi;
         Solmu solmu;
@@ -91,6 +123,12 @@ class Solmu implements Comparable<Solmu> {
         uusi = new Kaari(this, solmu, paino);
         kaymattomatKaaret.add(uusi);
     }
+    
+    /**
+     * Napataan keosta uusi pienin kaari.
+     * 
+     * @return 
+     */
     
     public Kaari etsiUusipieninkaari() {
         Kaari pieninKaari = kaymattomatKaaret.poll();

@@ -27,6 +27,22 @@ class Kaari implements Comparable<Kaari> {
     }
     
     /**
+     * Sama luonti numeroiden avulla.
+     * 
+     * @param solmu1
+     * @param solmu2
+     * @param paino 
+     */
+    
+    public Kaari(int solmu1, int solmu2, int paino) {
+        Solmu uusi1 = new Solmu(solmu1);
+        Solmu uusi2 = new Solmu(solmu2);
+        this.solmu1 = uusi1;
+        this.solmu2 = uusi2;
+        this.paino = paino;
+    }
+    
+    /**
      * Painoa voidaan vaihtaa.
      * 
      * @param paino 

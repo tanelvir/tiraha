@@ -41,15 +41,18 @@ public class Prim {
         System.out.println(lapikaydytsolmut);
 
 
-        for (int i = 0; i < T.palautaVerkko().size(); i++) {
-            siirraKaaret(etsiUusireitti().solmu2);
-        }
+       /* for (int i = 0; i < T.palautaVerkko().size(); i++) {
+            etsiUusireitti().Solmu2();
+        }*/
+        siirraKaaret(G.palautaVerkko().get(0));
+
+        System.out.println(T);
     }
 
     /**
-     * Miksei tämä toimi!??????
+     * Tämä toimii jotenkin
      *
-     * En koskekkaan G:hen ja silti sieltä tulee ääretöntä... :(
+     * Luodaan nyt tässä vaiheessa tyhjä lista.
      *
      * @param G
      * @return
@@ -79,20 +82,27 @@ public class Prim {
         }
 
     }
+    
+    /**
+     * Etsitään reitti levessuuntaisen läpikäynnin avulla.
+     * 
+     * @return pieninkaari
+     */
 
     public Kaari etsiUusireitti() {
         Kaari pieninKaari;
         Solmu solmu = lapikaydytsolmut.poll();
-        pieninKaari = solmu.etsiUusipieninkaari();
-        while (lapikaydytsolmut.isEmpty()) {
-            if (T.palautaKaikkikaaret().contains(pieninKaari)) {
+        pieninKaari = solmu.kaaret.poll();
+        System.out.println("höh" + solmu.kaaret.poll());
+        while (!lapikaydytsolmut.isEmpty()) {
+            if (T.palautaKaikkikaaret().sisaltaako(pieninKaari)) {
                 solmu = lapikaydytsolmut.poll();
-                pieninKaari = solmu.etsiUusipieninkaari();
+                pieninKaari = solmu.kaaret.poll();
             } else {
                 return pieninKaari;
             }
         }
-        return null;
+        return pieninKaari;
 
     }
 
@@ -108,11 +118,28 @@ public class Prim {
         //Testiä
         Prim prim;
         Painotettuverkko verkko = new Painotettuverkko();
-        verkko.lisaaSolmu(1, 2, 2);
-        verkko.lisaaSolmu(2, 3, 3);
-        verkko.lisaaSolmu(3, 1, 1);
-        verkko.lisaaSolmu(4, 2, 5);
+        verkko.lisaaSolmu(1, 2, 1);
+        verkko.palautaVerkko().get(0).lisaaKaari(3, 3);
+        verkko.lisaaSolmu(2, 5, 4);
+        verkko.palautaVerkko().get(1).lisaaKaari(6, 5);
+        verkko.palautaVerkko().get(1).lisaaKaari(1, 1);
+        verkko.lisaaSolmu(3, 1, 3);
+        verkko.palautaVerkko().get(2).lisaaKaari(6, 1);
+        verkko.palautaVerkko().get(2).lisaaKaari(7, 3);
+        verkko.palautaVerkko().get(2).lisaaKaari(4, 2);
+        verkko.lisaaSolmu(4, 3, 2);
+        verkko.palautaVerkko().get(3).lisaaKaari(7, 5);
+        verkko.lisaaSolmu(5, 2, 4);
+        verkko.palautaVerkko().get(4).lisaaKaari(6, 1);
+        verkko.lisaaSolmu(6, 5, 1);
+        verkko.palautaVerkko().get(5).lisaaKaari(2, 5);
+        verkko.palautaVerkko().get(5).lisaaKaari(3, 1);
+        verkko.palautaVerkko().get(5).lisaaKaari(7, 4);
+        verkko.lisaaSolmu(7, 6, 4);
+        verkko.palautaVerkko().get(6).lisaaKaari(3, 3);
+        verkko.palautaVerkko().get(6).lisaaKaari(4, 5);
 
-        prim = new Prim(verkko, verkko.palautaVerkko().get(1));
+        prim = new Prim(verkko, verkko.palautaVerkko().get(0));
+        System.out.println(verkko.palautaKaikkikaaret());
     }
 }

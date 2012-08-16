@@ -8,19 +8,17 @@ import java.util.*;
  */
 public class Minimikeko {
 
-    List<Solmu> h = new ArrayList<Solmu>();
+    List<Kaari> keko = new ArrayList<Kaari>();
 
     /**
      * Luodaan keko tekemällä heapifyita.
      *
      * @param taulukko
      */
-    public Minimikeko(Solmu[] taulukko) {
-        for (Solmu key : taulukko) {
-            h.add(key);
-        }
-        for (int k = h.size() / 2 - 1; k >= 0; k--) {
-            heapify(k, h.get(k));
+    public Minimikeko(ArrayList<Kaari> kaaret) {
+        keko = kaaret;
+        for (int k = keko.size() / 2 - 1; k >= 0; k--) {
+            heapify(k, keko.get(k));
         }
     }
 
@@ -31,19 +29,19 @@ public class Minimikeko {
      *
      * @param solmu
      */
-    public void lisaa(Solmu solmu) {
-        h.add(null);
-        int k = h.size() - 1;
+    public void lisaa(Kaari solmu) {
+        keko.add(null);
+        int k = keko.size() - 1;
         while (k > 0) {
             int vanhempi = (k - 1) / 2;
-            Solmu p = h.get(vanhempi);
+            Kaari p = keko.get(vanhempi);
             if (solmu.compareTo(p) >= 0) {
                 break;
             }
-            h.set(k, p);
+            keko.set(k, p);
             k = vanhempi;
         }
-        h.set(k, solmu);
+        keko.set(k, solmu);
     }
 
     /**
@@ -52,9 +50,9 @@ public class Minimikeko {
      *
      * @return
      */
-    public Solmu poista() {
-        Solmu poistettuSolmu = h.get(0);
-        Solmu viimeinenSolmu = h.remove(h.size() - 1);
+    public Kaari poista() {
+        Kaari poistettuSolmu = keko.get(0);
+        Kaari viimeinenSolmu = keko.remove(keko.size() - 1);
         heapify(0, viimeinenSolmu);
         return poistettuSolmu;
     }
@@ -64,8 +62,8 @@ public class Minimikeko {
      *
      * @return
      */
-    public Solmu pienin() {
-        return h.get(0);
+    public Kaari pienin() {
+        return keko.get(0);
     }
 
     /**
@@ -74,42 +72,74 @@ public class Minimikeko {
      * @return
      */
     public boolean onkoTyhja() {
-        return h.isEmpty();
+        return keko.isEmpty();
+    }
+    
+    /**
+     * Sisältääkö keko kyseisen kaaren.
+     * 
+     * @param kaari
+     * @return 
+     */
+    
+    public boolean sisaltaako(Kaari kaari) {
+        if (keko.contains(kaari)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    /**
+     * Palauttaa keon koon.
+     * 
+     * @return 
+     */
+    
+    public int palautaKoko() {
+        return keko.size();
     }
 
     /**
      * Katsotaan onko lapsi pienempi kuin vanhempansa ja onko lapsen viereinen
-     * solmu suurempi kuin se itse. Jos ei ole niin siirretään se oikealle paikalleen.
+     * solmu suurempi kuin se itse. Jos ei ole niin siirretään se oikealle
+     * paikalleen.
      *
      * @param k
      * @param solmu
      */
-    void heapify(int k, Solmu solmu) {
-        if (h.isEmpty()) {
+    void heapify(int k, Kaari kaari) {
+        if (keko.isEmpty()) {
             return;
         }
-        while (k < h.size() / 2) {
+        while (k < keko.size() / 2) {
             int lapsi = 2 * k + 1;
-            if (lapsi < h.size() - 1 && h.get(lapsi).compareTo(h.get(lapsi + 1)) > 0) {
+            if (lapsi < keko.size() - 1 && keko.get(lapsi).compareTo(keko.get(lapsi + 1)) > 0) {
                 lapsi++;
             }
-            if (solmu.compareTo(h.get(lapsi)) <= 0) {
+            if (kaari.compareTo(keko.get(lapsi)) <= 0) {
                 break;
             }
-            h.set(k, h.get(lapsi));
+            keko.set(k, keko.get(lapsi));
             k = lapsi;
         }
-        h.set(k, solmu);
+        keko.set(k, kaari);
+    }
+
+    @Override
+    public String toString() {
+        return "" + keko;
     }
 
     // Testausta
     public static void main(String[] args) {
-        Solmu[] taulu = {new Solmu(2), new Solmu(4), new Solmu(1), new Solmu(3)};
+        Kaari[] taulu = {new Kaari(2,3,4), new Kaari(4,5,2), new Kaari(1,4,3), new Kaari(3,1,5)};
         Minimikeko heap;
-        heap = new Minimikeko(taulu);
+        //heap = new Minimikeko(taulu);
         // tulostetaan solmut järjestyksessä
-        while (!heap.onkoTyhja()) {
-            System.out.println(heap.poista());
-        }
+        //while (!heap.onkoTyhja()) {
+        //    System.out.println(heap.poista());
+        //}
     }
 }
