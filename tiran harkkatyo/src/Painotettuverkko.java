@@ -130,11 +130,11 @@ public class Painotettuverkko {
      */
 
     public void lisaaSolmu(int solmu) {
-        Solmu uusi;
-        uusi = new Solmu(solmu);
-        if (!solmut.contains(uusi)) {
-            solmut.add(uusi);
-            solmujennumerot.add(uusi.numero);
+        Solmu v;
+        if (sisaltaakoSolmun(solmu)==false) {
+            v = new Solmu(solmu);
+            solmut.add(v);
+            solmujennumerot.add(v.numero);
         }
     }
     
@@ -153,14 +153,42 @@ public class Painotettuverkko {
     /**
      * Sisältääkö verkko solmun.
      * @param numero
-     * @return 
+     * @return true / false
      */
 
     public boolean sisaltaakoSolmun(int numero) {
-        if (solmut.get(numero) != null) {
+        for (Solmu v : solmut) {
+            if (v.numero == numero) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Sisältääkö koko verkko kaaren.
+     * 
+     * @param numero
+     * @param naapuri
+     * @param paino
+     * @return 
+     */
+    
+    public boolean sisaltaakoKaaren(int numero, int naapuri, int paino) {
+        Kaari e = new Kaari(numero, naapuri, paino);
+        if (palautaKaikkikaaret().sisaltaako(e)) {
             return true;
         }
         return false;
+    }
+    
+    public Solmu palautaSolmu(int numero) {
+        for (int i = 0; i < solmut.size(); i++) {
+            if (solmut.get(i).numero == numero) {
+                return solmut.get(i);
+            }
+        }
+        return null;
     }
 
     /**
