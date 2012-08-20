@@ -28,6 +28,7 @@ public class TiranHarkkatyo {
             solmu = parseInt(lukija.nextLine().trim());
         }
         G.lisaaSolmu(solmu);
+        System.out.println("Solmu " + solmu + " lisätty.");
         return G;
     }
 
@@ -36,6 +37,10 @@ public class TiranHarkkatyo {
         int solmu;
         int naapuri;
         int index;
+        if (G.palautaVerkko().size() < 2) {
+            System.out.println("Verkossa pitää olla vähintään 2 solmua, jotta niihin voidaan lisätä kaari");
+            return G;
+        }
         System.out.println("Seuraavat kaaret ovat jo verkossa: " + G.palautaKaikkikaaret());
         System.out.println("Et voi lisätä samaa kaarta");
         System.out.println("Syötä solmun numero, johon haluat lisätä kaaren");
@@ -52,6 +57,10 @@ public class TiranHarkkatyo {
             System.out.println(G.palautaVerkko());
             naapuri = parseInt(lukija.nextLine().trim());
         }
+        while (naapuri == solmu || !(G.sisaltaakoSolmun(naapuri))) {
+            System.out.println("Et voi laittaa kaarta solmuun itseensä!");
+            naapuri = parseInt(lukija.nextLine().trim());
+        }
         System.out.println("Syötä kaaren paino:");
         paino = parseInt(lukija.nextLine().trim());
         while (G.sisaltaakoKaaren(solmu, naapuri, paino)) {
@@ -60,6 +69,7 @@ public class TiranHarkkatyo {
             naapuri = parseInt(lukija.nextLine().trim());
         }
         G.palautaSolmu(solmu).lisaaKaari(naapuri, paino);
+        System.out.println("Solmusta: " + solmu + " solmuun: " + naapuri + " painolla: " + paino + " lisätty.");
         return G;
     }
 
@@ -91,6 +101,9 @@ public class TiranHarkkatyo {
 
     public static int parseInt(String sana) {
         int luku;
+        if (sana.length()==0) {
+            return 0;
+        }
         try {
             return luku = Integer.parseInt(sana);
         } catch (Exception e) {
@@ -100,15 +113,20 @@ public class TiranHarkkatyo {
     }
 
     public static char parseChar(String sana) {
+        String kirjain = sana;
         while (true) {
-            if (sana.length()>1) {
+            if (kirjain.length() > 1) {
                 System.out.println("Syötä vain 1 kirjain a, b, c tai q");
-            }
-            else if (sana.length()==0) {
+                kirjain = lukija.nextLine().trim();
+            } else if (kirjain.length() == 0) {
                 System.out.println("Syötä kirjain a, b, c tai q");
-            }
-            else {
-                //if (sana.charAt(0)=='ab')
+                kirjain = lukija.nextLine().trim();
+            } else {
+                char ekaKirjain =sana.charAt(0);
+                //Katsotaan onko kirjain a,b,c
+                if (ekaKirjain >= 97 || ekaKirjain <= 99) {
+                    return ekaKirjain;
+                }
             }
         }
 
@@ -127,10 +145,11 @@ public class TiranHarkkatyo {
             if (vastaus == 'a') {
                 lisaaSolmu(verkko);
             }
-            if (vastaus == 'b') {
+            else if (vastaus == 'b') {
                 lisaaKaari(verkko);
             }
-            if (vastaus == 'c') {
+            else if (vastaus == 'c') {
+                ajaAlgoritmit(verkko);
             }
         }
 

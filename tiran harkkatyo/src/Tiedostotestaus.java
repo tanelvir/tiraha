@@ -38,7 +38,7 @@ public class Tiedostotestaus {
         Scanner file = new Scanner(new File(nimi));
         while (file.hasNextLine()) {
             String actor = file.nextLine();
-            Solmu v1 = new Solmu(actor.charAt(0) - 48, actor.charAt(2) - 48, actor.charAt(4) - 48);
+            Solmu v1 = new Solmu(actor.charAt(0) - 96, actor.charAt(2) - 96, actor.charAt(4) - 96);
             verkko.lisaaSolmu(v1);
         }
     }
