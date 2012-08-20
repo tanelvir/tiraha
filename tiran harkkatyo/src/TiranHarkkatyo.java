@@ -122,10 +122,14 @@ public class TiranHarkkatyo {
                 System.out.println("Syötä kirjain a, b, c tai q");
                 kirjain = lukija.nextLine().trim();
             } else {
-                char ekaKirjain =sana.charAt(0);
+                char ekaKirjain = sana.charAt(0);
                 //Katsotaan onko kirjain a,b,c
                 if (ekaKirjain >= 97 || ekaKirjain <= 99) {
                     return ekaKirjain;
+                }
+                else {
+                    System.out.println("Vain a, b, c tai q!");
+                    return 'k';
                 }
             }
         }
