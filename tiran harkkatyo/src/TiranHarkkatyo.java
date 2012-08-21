@@ -58,7 +58,7 @@ public class TiranHarkkatyo {
             naapuri = parseInt(lukija.nextLine().trim());
         }
         while (naapuri == solmu || !(G.sisaltaakoSolmun(naapuri))) {
-            System.out.println("Et voi laittaa kaarta solmuun itseensä!");
+            System.out.println("Et voi laittaa kaarta olemattomaan tai samaan solmuun");
             naapuri = parseInt(lukija.nextLine().trim());
         }
         System.out.println("Syötä kaaren paino:");
