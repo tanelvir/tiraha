@@ -16,6 +16,7 @@ public class Kruskal {
     Minimikeko kaikkikaaret;
     Painotettuverkko T; //Virittävä puu
     PriorityQueue<Kaari> lapikaydytkaaret;
+    Tarkastaja tarkastaja;
 
     /**
      * Annetaan verkko, aletaan rakentamaan virittävää puuta.
@@ -34,14 +35,26 @@ public class Kruskal {
             etsiKaari();
         }
         
+        tarkastaja = new Tarkastaja();
+        
+        System.out.println(kaikkikaaret);
+        
+        while (kaikkikaaret.onkoTyhja()==false) {
+            Kaari pienin = kaikkikaaret.poista();
+            T.lisaaKaari(pienin.Solmu1(), pienin.Solmu2(), pienin.paino);
+            if (tarkastaja.syotaVerkko(T.palautaVieruslista())) {
+                break;
+            }
+            else {
+                T.palautaKaikkikaaret().poistaSuurin();
+            }
+        }
+        
         System.out.println(T.palautaKaikkikaaret());
         System.out.println(T.palautaVerkko());
     }
     
     
-    /*public boolean onkoverkkoYhtenainen() {
-        if ()
-    }*/
 
     /**
      * Lisää niitä kaaria ja solmuja joita virittävässä puussa ei vielä ole.
@@ -72,31 +85,24 @@ public class Kruskal {
 
     public static void main(String[] args) {
         Painotettuverkko verkko = new Painotettuverkko();
-        verkko.lisaaSolmu(1, 2, 1);
-        verkko.palautaVerkko().get(0).lisaaKaari(3, 3);
-        verkko.lisaaSolmu(2, 5, 4);
-        verkko.palautaVerkko().get(1).lisaaKaari(6, 5);
-        verkko.palautaVerkko().get(1).lisaaKaari(1, 1);
-        verkko.lisaaSolmu(3, 1, 3);
-        verkko.palautaVerkko().get(2).lisaaKaari(6, 1);
-        verkko.palautaVerkko().get(2).lisaaKaari(7, 3);
-        verkko.palautaVerkko().get(2).lisaaKaari(4, 2);
-        verkko.lisaaSolmu(4, 3, 2);
-        verkko.palautaVerkko().get(3).lisaaKaari(7, 5);
-        verkko.lisaaSolmu(5, 2, 4);
-        verkko.palautaVerkko().get(4).lisaaKaari(6, 1);
-        verkko.lisaaSolmu(6, 5, 1);
-        verkko.palautaVerkko().get(5).lisaaKaari(2, 5);
-        verkko.palautaVerkko().get(5).lisaaKaari(3, 1);
-        verkko.palautaVerkko().get(5).lisaaKaari(7, 4);
-        verkko.lisaaSolmu(7, 6, 4);
-        verkko.palautaVerkko().get(6).lisaaKaari(3, 3);
-        verkko.palautaVerkko().get(6).lisaaKaari(4, 5);
-        /*for (int i = 0; i < verkko.palautaVerkko().size(); i++) {
-            for (int j = 0; j < verkko.palautaVerkko().size(); j++) {
-                System.out.println(verkko.palautaVieruslista()[i][j]);
-            } 
-        }*/
+        verkko.lisaaSolmu(1);
+        verkko.lisaaSolmu(2);
+        verkko.lisaaSolmu(3);
+        verkko.lisaaSolmu(4);
+        verkko.lisaaSolmu(5);
+        verkko.lisaaSolmu(6);
+        verkko.lisaaSolmu(7);
+        verkko.lisaaKaari(1, 2, 1);
+        verkko.lisaaKaari(1, 3, 3);
+        verkko.lisaaKaari(2, 5, 4);
+        verkko.lisaaKaari(2, 6, 5);
+        verkko.lisaaKaari(3, 6, 1);
+        verkko.lisaaKaari(3, 7, 3);
+        verkko.lisaaKaari(3, 4, 2);
+        verkko.lisaaKaari(4, 7, 5);
+        verkko.lisaaKaari(5, 6, 1);
+        verkko.lisaaKaari(6, 7, 4);
+        
         Kruskal kruskal = new Kruskal(verkko);
         
         

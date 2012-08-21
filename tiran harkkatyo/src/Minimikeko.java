@@ -56,6 +56,11 @@ public class Minimikeko {
         heapify(0, viimeinenSolmu);
         return poistettuSolmu;
     }
+    
+    public Kaari poistaSuurin() {
+        Kaari poistettuSolmu = keko.remove(keko.size() - 1);
+        return poistettuSolmu;
+    }
 
     /**
      * Palauttaa pienimmän solmun

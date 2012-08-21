@@ -95,9 +95,10 @@ public class Painotettuverkko {
             Kaari kaari = v.palautaKaaret().poll();
             //System.out.println(v);
             while (!v.palautaKaaret().isEmpty()) {
-                taulu[i][(kaari.Solmu2().numero-1)] = true;
+                int j = kaari.Solmu2().numero-1;
+                taulu[i][j] = true;
                 kaari = v.palautaKaaret().poll();
-                System.out.println(i + " " + (kaari.Solmu2().numero-1));
+                System.out.println(i + " " + j);
             }
         }
         return taulu;
@@ -277,7 +278,7 @@ public class Painotettuverkko {
         verkko.lisaaSolmu(6);
         verkko.lisaaSolmu(7);
         verkko.lisaaKaari(1, 2, 1);
-        verkko.lisaaKaari(1, 3, 1);
+        verkko.lisaaKaari(1, 3, 3);
         verkko.lisaaKaari(2, 5, 4);
         verkko.lisaaKaari(2, 6, 5);
         verkko.lisaaKaari(3, 6, 1);
@@ -285,7 +286,17 @@ public class Painotettuverkko {
         verkko.lisaaKaari(3, 4, 2);
         verkko.lisaaKaari(4, 7, 5);
         verkko.lisaaKaari(5, 6, 1);
+        verkko.lisaaKaari(6, 7, 4);
         
         System.out.println(verkko);
+        System.out.println(verkko.palautaKaikkikaaret());
+        
+        boolean taulu[][] = verkko.palautaVieruslista(); 
+        
+        for (int i = 0; i < verkko.palautaVerkko().size(); i++) {
+            for (int j = 0; j < verkko.palautaVerkko().size(); j++) {
+                System.out.println(taulu[i][j]);
+            } 
+        }
     }
 }

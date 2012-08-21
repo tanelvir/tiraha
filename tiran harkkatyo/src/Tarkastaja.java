@@ -17,8 +17,11 @@ import java.util.Stack;
  * 
  */
 public class Tarkastaja {
+    
+    public Tarkastaja() {
+    }
  
-    public static boolean Tarkastaja(boolean[][] verkko) {
+    public boolean syotaVerkko(boolean[][] verkko) {
         // Toteuta minut
         boolean[] kayty = new boolean[verkko.length];
         dfs(verkko, kayty, 0);
@@ -31,7 +34,7 @@ public class Tarkastaja {
         return true;
     }
  
-    static void dfs(boolean[][] verkko, boolean[] kayty, int solmu) {
+    void dfs(boolean[][] verkko, boolean[] kayty, int solmu) {
         boolean[] rivi = verkko[solmu];
         kayty[solmu] = true;
  
@@ -42,7 +45,9 @@ public class Tarkastaja {
         }
     }
  
-    static boolean[][] esim1 = new boolean[][]
+    public static void main(String[] args) {
+        
+        boolean[][] esim1 = new boolean[][]
     {
         {false, true,  true,  true,  false},
         {true,  false, true,  true,  true},
@@ -51,7 +56,7 @@ public class Tarkastaja {
         {false, true,  false, true,  false}
     };
  
-    static boolean[][] esim2 = new boolean[][]
+    boolean[][] esim2 = new boolean[][]
     {
         {false, false, true,  false, false},
         {false, false, false, true,  true},
@@ -59,10 +64,10 @@ public class Tarkastaja {
         {false, true,  false, false, true},
         {false, true,  false, true,  false}
     };
- 
-    public static void main(String[] args) {
-        System.out.println(Tarkastaja(esim1));
-        System.out.println(Tarkastaja(esim2));
+        
+        Tarkastaja tarkastaja = new Tarkastaja();
+        System.out.println(tarkastaja.syotaVerkko(esim1));
+        System.out.println(tarkastaja.syotaVerkko(esim2));
     }
     
     
