@@ -13,7 +13,8 @@ import java.util.ArrayList;
  */
 public class Prim {
 
-    PriorityQueue<Solmu> lapikaydytsolmut;
+    ArrayList<Solmu> lapikaydytsolmut;
+    ArrayList<Solmu> käymättömätsolmut;
     Painotettuverkko T;
     Kaari pieninkaari;
     PriorityQueue<Kaari> kaikkikaaret;
@@ -29,16 +30,23 @@ public class Prim {
      */
     public Prim(Painotettuverkko G, Solmu r) {
 
-        lapikaydytsolmut = new PriorityQueue<Solmu>();
+        lapikaydytsolmut = new ArrayList<Solmu>();
         kaikkikaaret = new PriorityQueue<Kaari>();
+        käymättömätsolmut = G.palautaVerkko();
         T = new Painotettuverkko();
         System.out.println("kaaret: " + r.palautaKaaret());
         T = nollaaKaaret(G);
         lapikaydytsolmut.add(r);
-
-        System.out.println(T.palautaVerkko().get(0).palautaKaaret());
-        System.out.println(T.palautaVerkko().get(1).palautaKaaret());
-        System.out.println(lapikaydytsolmut);
+        G.poistaSolmu(r.numero);
+        Kaari pieninkaari = r.etsiUusipieninkaari();
+        T.palautaSolmu(r.numero).lisaaKaari(pieninkaari.Solmu2().numero, pieninkaari.paino);
+        G.poistaSolmu(pieninkaari.Solmu2().numero);
+        lapikaydytsolmut.add(pieninkaari.Solmu2());
+        
+        while (!G.palautaVerkko().isEmpty()) {
+            Kaari pienin = etsiPieninkaari(lapikaydytsolmut);
+            
+        }
 
 
        /* for (int i = 0; i < T.palautaVerkko().size(); i++) {
@@ -81,6 +89,14 @@ public class Prim {
             kaikkikaaret.add(kaari);
         }
 
+    }
+    
+    public Kaari etsiPieninkaari(ArrayList<Solmu> solmut) {
+        Minimikeko kaaret = Minimikeko(new ArrayList<Kaari>());
+        for (Solmu v : solmut) {
+            kaaret.lisaa(v.etsiUusipieninkaari());
+        }
+        return kaaret.poista();
     }
     
     /**
@@ -138,5 +154,9 @@ public class Prim {
 
         prim = new Prim(verkko, verkko.palautaVerkko().get(0));
         System.out.println(verkko.palautaKaikkikaaret());
+    }
+
+    private Minimikeko Minimikeko(ArrayList<Kaari> arrayList) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

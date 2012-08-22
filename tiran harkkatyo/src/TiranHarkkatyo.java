@@ -36,7 +36,6 @@ public class TiranHarkkatyo {
         int paino;
         int solmu;
         int naapuri;
-        int index;
         if (G.palautaVerkko().size() < 2) {
             System.out.println("Verkossa pitää olla vähintään 2 solmua, jotta niihin voidaan lisätä kaari");
             return G;
@@ -156,6 +155,5 @@ public class TiranHarkkatyo {
                 ajaAlgoritmit(verkko);
             }
         }
-
     }
 }

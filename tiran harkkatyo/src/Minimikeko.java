@@ -48,7 +48,7 @@ public class Minimikeko {
      * Poistetaan solmu ja pidetään oikea järjestys tekemällä heapify
      * viimeiselle solmulle.
      *
-     * @return
+     * @return poistettuSolmu
      */
     public Kaari poista() {
         Kaari poistettuSolmu = keko.get(0);
@@ -56,6 +56,12 @@ public class Minimikeko {
         heapify(0, viimeinenSolmu);
         return poistettuSolmu;
     }
+    
+    /**
+     * Otetaan viimeinen solmu keon lopusta, järjestys säilyy joten heapifyita ei tarvita.
+     * 
+     * @return poistettuSolmu
+     */
     
     public Kaari poistaSuurin() {
         Kaari poistettuSolmu = keko.remove(keko.size() - 1);
