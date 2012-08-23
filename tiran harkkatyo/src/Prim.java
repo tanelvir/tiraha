@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class Prim {
 
     ArrayList<Solmu> lapikaydytsolmut;
-    ArrayList<Solmu> käymättömätsolmut;
     Painotettuverkko T;
     Kaari pieninkaari;
     PriorityQueue<Kaari> kaikkikaaret;
@@ -22,59 +21,41 @@ public class Prim {
     /**
      * Annetaan verkko sekä aloitussolmu r, josta lähdetään liikkeelle. Luodaan
      * virittävä puu T, johon aletaan lisäämään kaaria. Nollausmetodissa siis
-     * pitäisi T:n kaarien muuttua äärettömiksi ja niitä aletaan päivittämään
-     * ajan tasalle.
+     * pitäisi T:n kaarien muuttua tyhjiksi ja niitä aletaan päivittämään
+     * ajan tasalle. Uuden solmun lisättäessä solmun kaaret lisätään minimikekoon kaikkikaaret.
+     * Annettu verkko G pienenee ja toimii mittarina millon verkko on täynnä.
      *
-     * @param G
-     * @param r
+     * @param Painotettuverkko G
+     * @param Solmu r
      */
     public Prim(Painotettuverkko G, Solmu r) {
 
         lapikaydytsolmut = new ArrayList<Solmu>();
         kaikkikaaret = new PriorityQueue<Kaari>();
-        käymättömätsolmut = G.palautaVerkko();
         T = new Painotettuverkko();
-        System.out.println("kaaret: " + r.palautaKaaret());
-        T = nollaaKaaret(G);
+        T.setVerkko(G.palautaVerkko());
         lapikaydytsolmut.add(r);
-        G.poistaSolmu(r.numero);
-        Kaari pieninkaari = r.etsiUusipieninkaari();
-        T.palautaSolmu(r.numero).lisaaKaari(pieninkaari.Solmu2().numero, pieninkaari.paino);
-        G.poistaSolmu(pieninkaari.Solmu2().numero);
+        siirraKaaret(G.poistaSolmu(r.numero));
+        Kaari pieninkaari = kaikkikaaret.poll();
+        T.lisaaKaari(r.numero, pieninkaari.Solmu2().numero, pieninkaari.paino);
+        T.palautaSolmu(r.numero).kaytyLapi();
+        siirraKaaret(G.poistaSolmu(pieninkaari.Solmu2().numero));
+        T.palautaSolmu(pieninkaari.Solmu2().numero).kaytyLapi();
         lapikaydytsolmut.add(pieninkaari.Solmu2());
-        
-        while (!G.palautaVerkko().isEmpty()) {
-            Kaari pienin = etsiPieninkaari(lapikaydytsolmut);
-            
+
+
+        while ((G.palautaVerkko().isEmpty()) == false && (kaikkikaaret.isEmpty()) == false) {
+            Kaari pienin = kaikkikaaret.poll();
+            Solmu uusi = pienin.Solmu2();
+            if (T.palautaSolmu(uusi.numero).onkoKayty()==false) {
+                lapikaydytsolmut.add(uusi);
+                siirraKaaret(G.poistaSolmu(uusi.numero));
+                T.lisaaKaari(pienin.Solmu1().numero, uusi.numero, pienin.paino);
+                T.palautaSolmu(uusi.numero).kaytyLapi();
+                G.poistaSolmu(uusi.numero);
+            }
+
         }
-
-
-       /* for (int i = 0; i < T.palautaVerkko().size(); i++) {
-            etsiUusireitti().Solmu2();
-        }*/
-        siirraKaaret(G.palautaVerkko().get(0));
-
-        System.out.println(T);
-    }
-
-    /**
-     * Tämä toimii jotenkin
-     *
-     * Luodaan nyt tässä vaiheessa tyhjä lista.
-     *
-     * @param G
-     * @return
-     */
-    public Painotettuverkko nollaaKaaret(Painotettuverkko G) {
-        Painotettuverkko X;
-        X = new Painotettuverkko();
-        System.out.println("1: " + G.palautaVerkko().get(1).palautaKaaret());
-        for (int i = 0; i < G.palautaVerkko().size(); i++) {
-            Solmu v = new Solmu(G.palautaVerkko().get(i).numero);
-            X.lisaaSolmu(v.numero);
-        }
-        System.out.println("2: " + G.palautaVerkko().get(1).palautaKaaret());
-        return X;
     }
 
     /**
@@ -91,45 +72,10 @@ public class Prim {
 
     }
     
-    public Kaari etsiPieninkaari(ArrayList<Solmu> solmut) {
-        Minimikeko kaaret = Minimikeko(new ArrayList<Kaari>());
-        for (Solmu v : solmut) {
-            kaaret.lisaa(v.etsiUusipieninkaari());
-        }
-        return kaaret.poista();
-    }
-    
-    /**
-     * Etsitään reitti levessuuntaisen läpikäynnin avulla.
-     * 
-     * @return pieninkaari
-     */
-
-    public Kaari etsiUusireitti() {
-        Kaari pieninKaari;
-        Solmu solmu = lapikaydytsolmut.poll();
-        pieninKaari = solmu.kaaret.poll();
-        System.out.println("höh" + solmu.kaaret.poll());
-        while (!lapikaydytsolmut.isEmpty()) {
-            if (T.palautaKaikkikaaret().sisaltaako(pieninKaari)) {
-                solmu = lapikaydytsolmut.poll();
-                pieninKaari = solmu.kaaret.poll();
-            } else {
-                return pieninKaari;
-            }
-        }
-        return pieninKaari;
-
+    public Painotettuverkko palautaVirittavapuu() {
+        return T;
     }
 
-    /*public Solmu etsiPieninkaari() {
-     while (kaikkikaaret.isEmpty()) {
-     pieninkaari = kaikkikaaret.poll();
-     if (lapikaydytsolmut.contains(pieninkaari.solmu1) && lapikaydytsolmut.contains(pieninkaari.solmu2)) {
-     pieninkaari = kaikkikaaret.poll();
-     }
-     }
-     }*/
     public static void main(String[] args) {
         //Testiä
         Prim prim;
@@ -153,10 +99,6 @@ public class Prim {
         verkko.lisaaKaari(6, 7, 4);
 
         prim = new Prim(verkko, verkko.palautaVerkko().get(0));
-        System.out.println(verkko.palautaKaikkikaaret());
-    }
-
-    private Minimikeko Minimikeko(ArrayList<Kaari> arrayList) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        System.out.println(prim.palautaVirittavapuu());
     }
 }

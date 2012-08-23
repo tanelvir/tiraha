@@ -9,7 +9,8 @@ import java.util.Scanner;
  */
 /**
  *
- * Tämän luokan tarkoituksena on testata tiedoston lukemista Scannerin avulla.
+ * Tämän luokan tarkoituksena on testata tiedoston lukemista Scannerin avulla. Tiedosto on muotoa .txt ja 
+ * se muuntaa kirjaimet ASCII-arvoiksi.
  *
  * @author Taneli
  */
@@ -28,7 +29,7 @@ public class Tiedostotestaus {
     }
 
     /**
-     * Luetaan tiedosto while file.hasNextLine avulla.
+     * Luetaan tiedosto while file.hasNextLine avulla. Kirjaimet luetaan tiedoston tiedystä kohdasta.
      *
      * @param nimi
      * @throws FileNotFoundException

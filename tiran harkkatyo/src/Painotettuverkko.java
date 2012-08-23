@@ -13,13 +13,14 @@ import java.util.PriorityQueue;
 /**
  * Painotettu verkko koostuu V määrästä solmuja ja solmut tuntevat kaarensa.
  * Yhdessä ne muodostavat verkon jossa kaarilla on painot ja kahden solmun
- * välillä on vain 1 kaari.
+ * välillä on vain 2 kaarta, jotka ovat samanpainoiset. Eli siis Solmu on jonkin kaaren lähtö-
+ * ja loppupiste.
  *
  */
 public class Painotettuverkko {
 
     ArrayList<Solmu> solmut; //Solmut puu-rakenteen muodossa.
-    ArrayList<Integer> solmujennumerot;
+    ArrayList<Integer> solmujennumerot; //Lista solmuista jota on verkossa.
 
     /**
      * Luodaan kokonaan uusi verkko
@@ -37,9 +38,18 @@ public class Painotettuverkko {
     public Painotettuverkko(ArrayList<Solmu> verkko) {
         this.solmut = verkko;
     }
+    
+    /**
+     * Luo kaarettoman uuden verkon, jossa on samat solmut kuin parametrinä annetuissa solmuissa.
+     * 
+     * @param ArrayList verkko 
+     */
 
     public void setVerkko(ArrayList<Solmu> verkko) {
-        this.solmut = verkko;
+        for (int i = 0; i < verkko.size(); i++) {
+            Solmu uusisolmu = verkko.get(i);
+            lisaaSolmu(uusisolmu.numero);
+        }
     }
 
     public ArrayList<Solmu> palautaVerkko() {
@@ -47,21 +57,21 @@ public class Painotettuverkko {
     }
 
     /**
-     * Palauttaa koko verkon kaaret.
+     * Palauttaa koko verkon kaaret. Kaaret eivät poistu vaan säilyvät.
      *
      * @return Minimikeko
      */
-    public Minimikeko palautaKaikkikaaret() {
-        ArrayList<Kaari> kaaret;
-        kaaret = new ArrayList<Kaari>();
+    public PriorityQueue<Kaari> palautaKaikkikaaret() {
+        PriorityQueue<Kaari> kaaret;
+        kaaret = new PriorityQueue<Kaari>();
         for (int i = 0; i < solmut.size(); i++) {
             Solmu v = solmut.get(i);
             while (!v.palautaKaaret().isEmpty()) {
                 kaaret.add(v.palautaKaaret().poll());
             }
+            v.setKaaret(kaaret);
         }
-        Minimikeko keko = new Minimikeko(kaaret);
-        return keko;
+        return kaaret;
     }
 
     /**
@@ -69,33 +79,36 @@ public class Painotettuverkko {
      *
      * @return
      */
-    public int yhteispaino() {
+    /*public int yhteispaino() {
         int summa = 0;
-        Minimikeko keko;
-        keko = palautaKaikkikaaret();
-        while (!keko.onkoTyhja()) {
-            summa = +keko.poista().paino;
+        PriorityQueue<Kaari> kaaret;
+        kaaret = palautaKaikkikaaret();
+        while (!kaaret.isEmpty()) {
+            summa = + kaaret.poll().paino;
         }
         return summa;
-    }
+    }*/
 
     /**
-     * Eikä tämäkään...
+     * Palautetaan vieruslista, josta voidaan tarkistaa onko verkko yhtenäinen.
      *
      * @return
      */
     public boolean[][] palautaVieruslista() {
         boolean[][] taulu = new boolean[solmut.size()][solmut.size()];
-        //System.out.println("solmut kaikkineen :" + solmut);
         for (int i = 0; i < solmut.size(); i++) {
+            PriorityQueue<Kaari> uusi = new PriorityQueue();
             Solmu v = solmut.get(i);
-            Kaari kaari = v.palautaKaaret().poll();;
+            Kaari kaari = v.palautaKaaret().poll();
+            uusi.add(kaari);
             while (!v.palautaKaaret().isEmpty()) {
                 int j = kaari.Solmu2().numero - 1;
                 taulu[i][j] = true;
                 kaari = v.palautaKaaret().poll();
                 System.out.println(i + " | " + j);
+                uusi.add(kaari);
             }
+            v.setKaaret(uusi);
         }
         return taulu;
     }
@@ -117,13 +130,11 @@ public class Painotettuverkko {
         viereinen = new Solmu(naapuri);
         if (sisaltaakoSolmun(solmu) == false) {
             uusi.lisaaKaari(naapuri, paino);
-            System.out.println("uusi: " + uusi);
             solmut.add(uusi);
             solmujennumerot.add(uusi.numero);
         }
         if (sisaltaakoSolmun(naapuri) == false) {
             viereinen.lisaaKaari(solmu, paino);
-            System.out.println("naapuri: " + viereinen);
             solmut.add(viereinen);
             solmujennumerot.add(viereinen.numero);
         }
@@ -131,7 +142,7 @@ public class Painotettuverkko {
     }
 
     /**
-     * Lisätään vain solmu indeksillä.
+     * Lisätään vain solmu indeksillä. Kaaria ei siis lisätä.
      *
      * @param solmu
      */
@@ -145,7 +156,7 @@ public class Painotettuverkko {
     }
 
     /**
-     * Lisätään solmu oliona.
+     * Lisätään solmu oliona. Kaaret riippuvat olion sisällöstä.
      *
      * @param solmu
      */
@@ -157,7 +168,7 @@ public class Painotettuverkko {
     }
 
     /**
-     * Lisätään sama kaari kummallekkin solmulle, jotta kommunikaatio toimii.
+     * Lisätään sama kaari kummallekkin solmulle, jotta kommunikaatio toimii. Kaaria lisätään siis 2.
      *
      * @param solmu
      * @param naapuri
@@ -200,27 +211,6 @@ public class Painotettuverkko {
     }
 
     /**
-     * Sisältääkö koko verkko kaaren.
-     *
-     * @param numero
-     * @param naapuri
-     * @param paino
-     * @return
-     */
-    public boolean sisaltaakoKaaren(int numero, int naapuri, int paino) {
-        Kaari tama;
-
-        for (int i = 0; i < palautaKaikkikaaret().keko.size(); i++) {
-            tama = palautaKaikkikaaret().keko.get(i);
-            if (tama.Solmu1().numero == numero && tama.Solmu2().numero == naapuri && tama.paino == paino) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Palauta kyseinen solmu oliona.
      *
      * @param numero
@@ -241,9 +231,24 @@ public class Painotettuverkko {
      * @param numero 
      */
     
-    public void poistaSolmu(int numero) {
+    public Solmu poistaSolmu(int numero) {
         Solmu tama = palautaSolmu(numero);
         solmut.remove(tama);
+        return tama;
+    }
+    
+    /**
+     * Tyhjätään verkko kaaristaan. (Äärettömyys)
+     *
+     * 
+     *
+     * @return this
+     */
+    public Painotettuverkko nollaaKaaret() {
+        for (int i = 0; i < solmut.size(); i++) {
+            this.palautaVerkko().get(i).nollaaKaaret();
+        }
+        return this;
     }
 
     public String laskuri(int luku, Kaari kaari) {
@@ -273,10 +278,11 @@ public class Painotettuverkko {
                 laskin--;
             }
         }
-        return "";
+        return "Yhteispaino: ";
     }
 
     public static void main(String[] args) {
+        //Testiä
         Painotettuverkko verkko = new Painotettuverkko();
         verkko.lisaaSolmu(1);
         verkko.lisaaSolmu(2);
@@ -296,9 +302,7 @@ public class Painotettuverkko {
         verkko.lisaaKaari(5, 6, 1);
         verkko.lisaaKaari(6, 7, 4);
 
-        System.out.println(verkko);
-        System.out.println(verkko.palautaKaikkikaaret());
-
+        //System.out.println(verkko.palautaKaikkikaaret());       
         boolean taulu[][] = verkko.palautaVieruslista();
 
         for (int i = 0; i < verkko.palautaVerkko().size(); i++) {
@@ -306,5 +310,10 @@ public class Painotettuverkko {
                 System.out.println(taulu[i][j]);
             }
         }
+        
+        Tarkastaja tarkastaja = new Tarkastaja();
+        System.out.println("yht: " + tarkastaja.syotaVerkko(taulu));
+        
+        System.out.println(verkko);
     }
 }

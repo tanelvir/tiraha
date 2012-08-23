@@ -37,10 +37,9 @@ public class tirahaTest {
 
     @Test
     public void solmunLisays() {
-        G.lisaaSolmu(1, 2, 3);
-        G.lisaaSolmu(2, 3, 5);
-        System.out.println(G.palautaVerkko().size());
-        System.out.println(G.palautaVerkko().get(0).palautaKaaret().peek().paino);
+        G.lisaaSolmu(1);
+        G.lisaaSolmu(2);
+        G.lisaaKaari(1, 2, 3);
         assertTrue(G.palautaVerkko().size() == 2);
         assertTrue(G.palautaVerkko().get(0).palautaKaaret().peek().paino == 3);
     }
@@ -50,7 +49,6 @@ public class tirahaTest {
         G.lisaaSolmu(1, 2, 3);
         G.lisaaSolmu(3, 4, 1);
         G.palautaVerkko().get(0).lisaaKaari(4, 3);
-        System.out.println(G.palautaVerkko().get(0).palautaKaaret().size());
         assertTrue(G.palautaVerkko().get(0).palautaKaaret().size() == 2);
     }
 
@@ -80,60 +78,64 @@ public class tirahaTest {
     @Test
     public void KruskalinTesti() {
         Painotettuverkko verkko = new Painotettuverkko();
-        verkko.lisaaSolmu(1, 2, 1);
-        verkko.palautaVerkko().get(0).lisaaKaari(3, 3);
-        verkko.lisaaSolmu(2, 5, 4);
-        verkko.palautaVerkko().get(1).lisaaKaari(6, 5);
-        verkko.palautaVerkko().get(1).lisaaKaari(1, 1);
-        verkko.lisaaSolmu(3, 1, 3);
-        verkko.palautaVerkko().get(2).lisaaKaari(6, 1);
-        verkko.palautaVerkko().get(2).lisaaKaari(7, 3);
-        verkko.palautaVerkko().get(2).lisaaKaari(4, 2);
-        verkko.lisaaSolmu(4, 3, 2);
-        verkko.palautaVerkko().get(3).lisaaKaari(7, 5);
-        verkko.lisaaSolmu(5, 2, 4);
-        verkko.palautaVerkko().get(4).lisaaKaari(6, 1);
-        verkko.lisaaSolmu(6, 5, 1);
-        verkko.palautaVerkko().get(5).lisaaKaari(2, 5);
-        verkko.palautaVerkko().get(5).lisaaKaari(3, 1);
-        verkko.palautaVerkko().get(5).lisaaKaari(7, 4);
-        verkko.lisaaSolmu(7, 6, 4);
-        verkko.palautaVerkko().get(6).lisaaKaari(3, 3);
-        verkko.palautaVerkko().get(6).lisaaKaari(4, 5);
+        verkko.lisaaSolmu(1);
+        verkko.lisaaSolmu(2);
+        verkko.lisaaSolmu(3);
+        verkko.lisaaSolmu(4);
+        verkko.lisaaSolmu(5);
+        verkko.lisaaSolmu(6);
+        verkko.lisaaSolmu(7);
+        verkko.lisaaKaari(1, 2, 1);
+        verkko.lisaaKaari(1, 3, 3);
+        verkko.lisaaKaari(2, 5, 4);
+        verkko.lisaaKaari(2, 6, 5);
+        verkko.lisaaKaari(3, 6, 1);
+        verkko.lisaaKaari(3, 7, 3);
+        verkko.lisaaKaari(3, 4, 2);
+        verkko.lisaaKaari(4, 7, 5);
+        verkko.lisaaKaari(5, 6, 1);
+        verkko.lisaaKaari(6, 7, 4);
+        
+        int koko = verkko.palautaVerkko().size();
+        int kaaria = koko*2 - 2*1;
+        
+        
         
         Kruskal kruskal = new Kruskal(verkko);
         
-        assertTrue(kruskal.T.palautaVerkko().size() == 7);
+        assertTrue(kruskal.palautaVirittavapuu().palautaVerkko().size() == verkko.palautaVerkko().size());
+        assertTrue(kruskal.palautaVirittavapuu().palautaKaikkikaaret().size() == kaaria);
         
     }
     
     @Test
     public void PriminTesti() {
         Painotettuverkko verkko = new Painotettuverkko();
-        verkko.lisaaSolmu(1, 2, 1);
-        verkko.palautaVerkko().get(0).lisaaKaari(3, 3);
-        verkko.lisaaSolmu(2, 5, 4);
-        verkko.palautaVerkko().get(1).lisaaKaari(6, 5);
-        verkko.palautaVerkko().get(1).lisaaKaari(1, 1);
-        verkko.lisaaSolmu(3, 1, 3);
-        verkko.palautaVerkko().get(2).lisaaKaari(6, 1);
-        verkko.palautaVerkko().get(2).lisaaKaari(7, 3);
-        verkko.palautaVerkko().get(2).lisaaKaari(4, 2);
-        verkko.lisaaSolmu(4, 3, 2);
-        verkko.palautaVerkko().get(3).lisaaKaari(7, 5);
-        verkko.lisaaSolmu(5, 2, 4);
-        verkko.palautaVerkko().get(4).lisaaKaari(6, 1);
-        verkko.lisaaSolmu(6, 5, 1);
-        verkko.palautaVerkko().get(5).lisaaKaari(2, 5);
-        verkko.palautaVerkko().get(5).lisaaKaari(3, 1);
-        verkko.palautaVerkko().get(5).lisaaKaari(7, 4);
-        verkko.lisaaSolmu(7, 6, 4);
-        verkko.palautaVerkko().get(6).lisaaKaari(3, 3);
-        verkko.palautaVerkko().get(6).lisaaKaari(4, 5);
+        verkko.lisaaSolmu(1);
+        verkko.lisaaSolmu(2);
+        verkko.lisaaSolmu(3);
+        verkko.lisaaSolmu(4);
+        verkko.lisaaSolmu(5);
+        verkko.lisaaSolmu(6);
+        verkko.lisaaSolmu(7);
+        verkko.lisaaKaari(1, 2, 1);
+        verkko.lisaaKaari(1, 3, 3);
+        verkko.lisaaKaari(2, 5, 4);
+        verkko.lisaaKaari(2, 6, 5);
+        verkko.lisaaKaari(3, 6, 1);
+        verkko.lisaaKaari(3, 7, 3);
+        verkko.lisaaKaari(3, 4, 2);
+        verkko.lisaaKaari(4, 7, 5);
+        verkko.lisaaKaari(5, 6, 1);
+        verkko.lisaaKaari(6, 7, 4);
+        
+        int koko = verkko.palautaVerkko().size();
+        int kaaria = koko*2 - 2*1;
         
         Prim prim = new Prim(verkko, verkko.palautaVerkko().get(0));
         
-        assertTrue(prim.kaikkikaaret.size() == 2);
+        assertTrue(prim.palautaVirittavapuu().palautaVerkko().size() == koko);
+        assertTrue(prim.palautaVirittavapuu().palautaKaikkikaaret().size() == kaaria); //virittävässä puussa on oltava kaaria solmujenmäärä-1
         
     }
     
@@ -149,7 +151,7 @@ public class tirahaTest {
         }
         assertTrue(testi.returnVerkko().palautaVerkko().get(0).numero == 1);
         assertTrue(testi.returnVerkko().palautaVerkko().get(1).numero == 2);
-        assertTrue(testi.returnVerkko().palautaVerkko().get(2).numero == 4);
-        assertTrue(testi.returnVerkko().palautaVerkko().get(3).numero == 3);
+        assertTrue(testi.returnVerkko().palautaVerkko().get(2).numero == 3);
+        assertTrue(testi.returnVerkko().palautaVerkko().get(3).numero == 4);
     }
 }

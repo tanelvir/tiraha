@@ -9,7 +9,7 @@ import java.util.Stack;
 /**
  *
  * Tarkastaa onko verkko yhtenäinen. Otettu tietorakenteet 2012-kurssilta pajan mallivastauksista. 
- * Ei minun tekemä.
+ * EI OLE MINUN TEKEMÄ!
  * 
  * Tarkistetaan leveyssuuntaisella läpikäynnillä onko  verkko yhtenäinen.
  *

@@ -11,15 +11,16 @@ import java.util.PriorityQueue;
 
 /**
  * Solmulla voi olla E määrä kaaria. Solmu ei tunne naapuriaan, mutta sen kaari
- * tuntee naapurinsa.
+ * tuntee päätesolmunsa. Solmulla voi olla setti, eli siis metsä johon se kuuluu.
  *
  */
 class Solmu implements Comparable<Solmu> {
 
-    PriorityQueue<Kaari> kaaret;
-    PriorityQueue<Kaari> kaymattomatKaaret;
+    PriorityQueue<Kaari> kaaret; //Minimikeko solmun kaarista.
+    PriorityQueue<Kaari> kaymattomatKaaret; //Minimikeko käymättömistä kaarista.
     int numero; //Tämä tarkoittaa ikäänkuin solmun nimeä. Numerojärjestystä voidaan käyttää algoritmissa.
     boolean lapikayty; //Onko solmu jo virittävässä puussa.
+    int setti; //Mihin metsään solmu kuuluu. On oletuksena sama kuin numero.
 
     /**
      * Lisätään vain jokin solmu ilman numeroa.
@@ -40,6 +41,7 @@ class Solmu implements Comparable<Solmu> {
         kaaret = new PriorityQueue<Kaari>();
         kaymattomatKaaret = new PriorityQueue<Kaari>();
         lapikayty = false;
+        this.setti = numero;
     }
 
     /**
@@ -55,6 +57,7 @@ class Solmu implements Comparable<Solmu> {
         kaymattomatKaaret = new PriorityQueue<Kaari>();
         lapikayty = false;
         lisaaKaari(naapuri, paino);
+        this.setti = numero;
     }
 
     /**
@@ -64,6 +67,16 @@ class Solmu implements Comparable<Solmu> {
      */
     public void setNumero(int numero) {
         this.numero = numero;
+    }
+    
+    /**
+     * Sijoitetaan solmu johonkin metsään.
+     * 
+     * @param numero 
+     */
+    
+    public void setSetti(int numero ){
+        this.setti = numero;
     }
 
     /**
@@ -85,13 +98,23 @@ class Solmu implements Comparable<Solmu> {
     public boolean onkoKayty() {
         return lapikayty;
     }
+    
+    /**
+     * Kaaret voidaan kokonaan vaihtaa myös.
+     * 
+     * @param uudet 
+     */
+    
+    public void setKaaret(PriorityQueue<Kaari> uudet) {
+        this.kaaret = uudet;
+    }
 
     public PriorityQueue<Kaari> palautaKaaret() {
         return kaaret;
     }
 
     /**
-     * Lisätään kaari, jolla on paino ja päätepisteenä on naapuri.
+     * Lisätään kaari, jolla on paino ja päätepisteenä on naapuri. Solmulla voi olla max. 4 kaarta.
      *
      * @param naapuri
      * @param paino
@@ -111,7 +134,7 @@ class Solmu implements Comparable<Solmu> {
     }
 
     /**
-     * Kaari, jota ei olla viellä käyty läpi.
+     * Kaari, jota ei olla viellä käyty läpi. Max. 4.
      *
      * @param naapuri
      * @param paino
@@ -130,7 +153,7 @@ class Solmu implements Comparable<Solmu> {
     }
 
     /**
-     * Napataan keosta uusi pienin kaari.
+     * Napataan keosta uusi pienin kaari. Kyseinen kaari siis poistuu.
      *
      * @return
      */
@@ -140,18 +163,22 @@ class Solmu implements Comparable<Solmu> {
     }
 
     /**
-     * Asetetaan kaikkien kaarien painoksi ääretön.
+     * Tyhjennetään solmu kaarista (ääretön).
      */
     public void nollaaKaaret() {
-        for (Kaari e : kaaret) {
-            e.setPaino(Integer.MAX_VALUE);
-        }
+        kaaret = new PriorityQueue();
     }
 
     @Override
     public String toString() {
         return "" + this.numero;
     }
+    
+    /**
+     * Solmun vertailtavuus tullaan varmaan poistamaan. 
+     * @param solmu
+     * @return 
+     */
 
     public int compareTo(Solmu solmu) {
         return (this.kaymattomatKaaret.peek().paino < solmu.kaymattomatKaaret.peek().paino) ? -1 : 1;

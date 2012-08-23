@@ -6,16 +6,17 @@ import java.util.PriorityQueue;
  * Kruskalin algoritmi. Algoritmi tuntee listan kaikista verkon kaarista.
  * Virittävä puu kootaan pikkuhiljaa lisäämällä pienimpiä kaaria, kunnes kaikki
  * solmut on käyty läpi ja puu on yhtenäinen eli joka solmusta pääsee jotakin
- * reittiä toiseen solmuun.
+ * reittiä toiseen solmuun. Yhdistely tapahtuu antamalla solmulle metsän numero (setti).
+ * Jos setit ovat erilaiset, metsät yhdistetään
  *
  *
  * @author tanelvir
  */
 public class Kruskal {
 
-    Minimikeko kaikkikaaret;
+    PriorityQueue<Kaari> kaikkikaaret;
     Painotettuverkko T; //Virittävä puu
-    PriorityQueue<Kaari> lapikaydytkaaret;
+    PriorityQueue<Kaari> lapikaymattomatkaaret;
     Tarkastaja tarkastaja;
 
     /**
@@ -27,63 +28,62 @@ public class Kruskal {
 
         kaikkikaaret = G.palautaKaikkikaaret();
         T = new Painotettuverkko();
-        lapikaydytkaaret = new PriorityQueue<Kaari>();
-        System.out.println(G.palautaVerkko().size());
+        T = new Painotettuverkko();
+        T.setVerkko(G.palautaVerkko());
+        lapikaymattomatkaaret = new PriorityQueue<Kaari>();
 
-        while (T.palautaVerkko().size() < G.palautaVerkko().size()) {
-            System.out.println("verkon koko: "+T.palautaVerkko().size());
+        while (!(kaikkikaaret.isEmpty())) {
             etsiKaari();
         }
-        
-        tarkastaja = new Tarkastaja();
-        
-        System.out.println(kaikkikaaret);
-        
-        while (kaikkikaaret.onkoTyhja()==false) {
-            Kaari pienin = kaikkikaaret.poista();
-            T.lisaaKaari(pienin.Solmu1(), pienin.Solmu2(), pienin.paino);
-            if (tarkastaja.syotaVerkko(T.palautaVieruslista())) {
-                break;
-            }
-            else {
-                T.palautaKaikkikaaret().poistaSuurin();
-            }
+
+        while (!(lapikaymattomatkaaret.isEmpty())) {
+            yhdistaSetit();
         }
-        
-        System.out.println(T.palautaKaikkikaaret());
-        System.out.println(T.palautaVerkko());
     }
     
-    
-
     /**
-     * Lisää niitä kaaria ja solmuja joita virittävässä puussa ei vielä ole.
-     * 
-     *
-     * @param X
-     * @return
+     * Käydään läpi jokainen solmu. Naapurin setti muuttuu lähtösolmun setin mukaan.
+     * Läpikäymättömiin kaariin tulee kaikistakaarista ylimääräiset kaaret. Pienin kaari liitetään
+     * niin että se vie käymättömään solmuun.
      */
+
     public void etsiKaari() {
-        Kaari pienin = kaikkikaaret.poista();
-        System.out.println("numba: " + T.solmujennumerot.contains(pienin.solmu1.numero) + " " + T.solmujennumerot.contains(pienin.solmu2.numero));
-        System.out.println(pienin);
-        if (T.solmujennumerot.contains(pienin.solmu1.numero)==true && T.solmujennumerot.contains(pienin.solmu2.numero)==true) {
-            pienin = kaikkikaaret.poista();
+        Kaari pienin = kaikkikaaret.poll();
+        if (T.palautaSolmu(pienin.Solmu2().numero).lapikayty == false) {
+            T.palautaSolmu(pienin.Solmu2().numero).kaytyLapi();
+            T.palautaSolmu(pienin.Solmu2().numero).setSetti(T.palautaSolmu(pienin.Solmu1().numero).setti);
+            T.palautaSolmu(pienin.Solmu1().numero).kaytyLapi();
+            T.lisaaKaari(pienin.Solmu1().numero, pienin.Solmu2().numero, pienin.paino);
         } else {
-            if (T.solmujennumerot.contains(pienin.solmu1.numero)==true) {
-                T.lisaaSolmu(pienin.solmu2.numero, pienin.solmu1.numero, pienin.paino);
-            }
-            else if (T.solmujennumerot.contains(pienin.solmu2.numero)==true) {
-                T.lisaaSolmu(pienin.solmu1.numero, pienin.solmu2.numero, pienin.paino);
-            }
-            else {
-                T.lisaaSolmu(pienin.solmu1.numero, pienin.solmu2.numero, pienin.paino);
-                T.lisaaSolmu(pienin.solmu2.numero, pienin.solmu1.numero, pienin.paino);
-            }
+            lapikaymattomatkaaret.add(pienin);
         }
+    }
+    
+    /**
+     * Setit yhdistetään sillain että jos havaitaan kaari joka yhdistää kaksi eri settiä. 
+     * Toisen setin solmujen setit muuttuvat for-lauseella, joka käy koko verkon läpi.
+     */
+
+    public void yhdistaSetit() {
+        Kaari pienin = lapikaymattomatkaaret.poll();
+        if ((T.palautaSolmu(pienin.Solmu1().numero).setti) != (T.palautaSolmu(pienin.Solmu2().numero).setti)) {
+            int setti1 = T.palautaSolmu(pienin.Solmu1().numero).setti;
+            int setti2 = T.palautaSolmu(pienin.Solmu2().numero).setti;
+            for (int i = 0; i < T.palautaVerkko().size(); i++) {
+                if (T.palautaVerkko().get(i).setti == setti2) {
+                    T.palautaVerkko().get(i).setSetti(setti1);
+                }
+            }
+            T.lisaaKaari(pienin.Solmu1().numero, pienin.Solmu2().numero, pienin.paino);
+        }
+    }
+
+    public Painotettuverkko palautaVirittavapuu() {
+        return T;
     }
 
     public static void main(String[] args) {
+        //Testiä
         Painotettuverkko verkko = new Painotettuverkko();
         verkko.lisaaSolmu(1);
         verkko.lisaaSolmu(2);
@@ -102,15 +102,9 @@ public class Kruskal {
         verkko.lisaaKaari(4, 7, 5);
         verkko.lisaaKaari(5, 6, 1);
         verkko.lisaaKaari(6, 7, 4);
-        
-        Kruskal kruskal = new Kruskal(verkko);
-        
-        
 
-        /*System.out.println(puu.palautaVerkko().get(0).palautaKaaret());
-         System.out.println(puu.palautaVerkko().get(1).palautaKaaret());
-         System.out.println(puu.palautaVerkko().get(2).palautaKaaret());
-         System.out.println(puu.palautaVerkko().get(3).palautaKaaret());*/
+        Kruskal kruskal = new Kruskal(verkko);
+        System.out.println(kruskal.palautaVirittavapuu());
 
     }
 }
