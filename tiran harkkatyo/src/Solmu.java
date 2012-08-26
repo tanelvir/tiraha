@@ -7,6 +7,7 @@
  *
  * @author Taneli
  */
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 /**
@@ -107,6 +108,13 @@ class Solmu implements Comparable<Solmu> {
     
     public void setKaaret(PriorityQueue<Kaari> uudet) {
         this.kaaret = uudet;
+    }
+    
+    public void setKaaret(ArrayList<Kaari> uudet) {
+        this.kaaret = new PriorityQueue<Kaari>();
+        for (Kaari e : uudet) {
+            kaaret.add(e);
+        }
     }
 
     public PriorityQueue<Kaari> palautaKaaret() {

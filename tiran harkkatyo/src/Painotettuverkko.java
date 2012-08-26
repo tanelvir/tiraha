@@ -73,21 +73,39 @@ public class Painotettuverkko {
         }
         return kaaret;
     }
+    
+    /**
+     * Palauttaa koko verkon kaaret ArrayListinä
+     *
+     * @return kaaret
+     */
+    public ArrayList<Kaari> palautaKaikkikaaret2() {
+        ArrayList<Kaari> kaaret;
+        kaaret = new ArrayList<Kaari>();
+        for (int i = 0; i < solmut.size(); i++) {
+            Solmu v = solmut.get(i);
+            while (!v.palautaKaaret().isEmpty()) {
+                kaaret.add(v.palautaKaaret().poll());
+            }
+            v.setKaaret(kaaret);
+        }
+        return kaaret;
+    }
 
     /**
      * Tämä ei toimi... miksiköhän?
      *
      * @return
      */
-    /*public int yhteispaino() {
+    public int yhteispaino() {
         int summa = 0;
-        PriorityQueue<Kaari> kaaret;
-        kaaret = palautaKaikkikaaret();
-        while (!kaaret.isEmpty()) {
-            summa = + kaaret.poll().paino;
+        ArrayList<Kaari> kaaret;
+        kaaret = palautaKaikkikaaret2();
+        for (Kaari e : kaaret) {
+            summa += e.paino;
         }
-        return summa;
-    }*/
+        return summa/2;
+    }
 
     /**
      * Palautetaan vieruslista, josta voidaan tarkistaa onko verkko yhtenäinen.
@@ -278,7 +296,7 @@ public class Painotettuverkko {
                 laskin--;
             }
         }
-        return "Yhteispaino: ";
+        return "Yhteispaino: " + yhteispaino();
     }
 
     public static void main(String[] args) {
