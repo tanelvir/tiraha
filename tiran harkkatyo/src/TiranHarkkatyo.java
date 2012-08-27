@@ -85,6 +85,7 @@ public class TiranHarkkatyo {
         paino = parseInt(lukija.nextLine().trim());
         G.lisaaKaari(solmu, naapuri, paino);
         System.out.println("Solmusta: " + solmu + " solmuun: " + naapuri + " painolla: " + paino + " lisätty.");
+        System.out.println(G);
         return G;
     }
     
@@ -114,10 +115,10 @@ public class TiranHarkkatyo {
         Kruskal kruskal;
         Prim prim;
         System.out.println("Ajetaan Kruskalin algoritmi verkolle: " + G.palautaVerkko());
-        starttiK = System.currentTimeMillis();
+        starttiK = System.nanoTime();
         kruskal = new Kruskal(G);
         K = kruskal.palautaVirittavapuu();
-        tulosK = System.currentTimeMillis() - starttiK;
+        tulosK = System.nanoTime() - starttiK;
         System.out.println("Tulos Kruskalilla on: " + tulosK);
         System.out.println(K);
         lukija.nextLine();
@@ -130,9 +131,9 @@ public class TiranHarkkatyo {
             solmu = parseInt(lukija.nextLine().trim());
         }
         Solmu v = G.palautaSolmu(solmu);
-        starttiP = System.currentTimeMillis();
+        starttiP = System.nanoTime();
         prim = new Prim(G, v);
-        tulosP = System.currentTimeMillis() - starttiP;
+        tulosP = System.nanoTime() - starttiP;
         P = prim.palautaVirittavapuu();
         System.out.println("Tulos Primillä on: " + tulosP);
         System.out.println(P);
