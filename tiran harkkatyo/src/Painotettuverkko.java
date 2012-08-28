@@ -14,8 +14,8 @@ import java.util.Scanner;
 /**
  * Painotettu verkko koostuu V määrästä solmuja ja solmut tuntevat kaarensa.
  * Yhdessä ne muodostavat verkon jossa kaarilla on painot ja kahden solmun
- * välillä on vain 2 kaarta, jotka ovat samanpainoiset. Eli siis Solmu on jonkin kaaren lähtö-
- * ja loppupiste.
+ * välillä on vain 2 kaarta, jotka ovat samanpainoiset. Eli siis Solmu on jonkin
+ * kaaren lähtö- ja loppupiste.
  *
  */
 public class Painotettuverkko {
@@ -39,13 +39,13 @@ public class Painotettuverkko {
     public Painotettuverkko(ArrayList<Solmu> verkko) {
         this.solmut = verkko;
     }
-    
-    /**
-     * Luo kaarettoman uuden verkon, jossa on samat solmut kuin parametrinä annetuissa solmuissa.
-     * 
-     * @param ArrayList verkko 
-     */
 
+    /**
+     * Luo kaarettoman uuden verkon, jossa on samat solmut kuin parametrinä
+     * annetuissa solmuissa.
+     *
+     * @param ArrayList verkko
+     */
     public void setVerkko(ArrayList<Solmu> verkko) {
         for (int i = 0; i < verkko.size(); i++) {
             Solmu uusisolmu = verkko.get(i);
@@ -56,18 +56,17 @@ public class Painotettuverkko {
     public ArrayList<Solmu> palautaVerkko() {
         return solmut;
     }
-    
+
     /**
      * Kopioi solmut oliona poistamaalla viitteen alkuperäiseen verkkoon.
-     * 
+     *
      * @return ArrayList<Solmu>
      */
-    
     public ArrayList<Solmu> kopioiVerkko() {
         Painotettuverkko G = new Painotettuverkko();
         for (int i = 0; i < solmut.size(); i++) {
             Solmu solmu = solmut.get(i);
-            //System.out.println(solmu.palautaKaaret());
+            System.out.println(solmu.palautaKaaret());
             G.lisaaSolmu(solmu);
         }
         return G.palautaVerkko();
@@ -84,13 +83,14 @@ public class Painotettuverkko {
         for (int i = 0; i < solmut.size(); i++) {
             Solmu v = solmut.get(i);
             while (!v.palautaKaaret().isEmpty()) {
-                kaaret.add(v.palautaKaaret().poll());
+                Kaari e = v.palautaKaaret().poll();
+                kaaret.add(e);
             }
             v.setKaaret(kaaret);
         }
         return kaaret;
     }
-    
+
     /**
      * Palauttaa koko verkon kaaret ArrayListinä
      *
@@ -121,7 +121,7 @@ public class Painotettuverkko {
         for (Kaari e : kaaret) {
             summa += e.paino;
         }
-        return summa/2;
+        return summa / 2;
     }
 
     /**
@@ -203,7 +203,8 @@ public class Painotettuverkko {
     }
 
     /**
-     * Lisätään sama kaari kummallekkin solmulle, jotta kommunikaatio toimii. Kaaria lisätään siis 2.
+     * Lisätään sama kaari kummallekkin solmulle, jotta kommunikaatio toimii.
+     * Kaaria lisätään siis 2.
      *
      * @param solmu
      * @param naapuri
@@ -259,23 +260,22 @@ public class Painotettuverkko {
         }
         return null;
     }
-    
+
     /**
      * Poistaa kyseisen solmun verkosta.
-     * 
-     * @param numero 
+     *
+     * @param numero
      */
-    
     public Solmu poistaSolmu(int numero) {
         Solmu tama = palautaSolmu(numero);
         solmut.remove(tama);
         return tama;
     }
-    
+
     /**
      * Tyhjätään verkko kaaristaan. (Äärettömyys)
      *
-     * 
+     *
      *
      * @return this
      */
@@ -306,18 +306,18 @@ public class Painotettuverkko {
         System.out.println("| Solmu | Naapuri| Paino  | Naapuri| Paino  | Naapuri| Paino ->");
         for (int i = 0; i < solmut.size(); i++) {
             Solmu tama = solmut.get(i);
+            tama.kopioiKaaret();
             int laskin = tama.kaaret.size();
             System.out.print("\n|S: " + tama.numero);
-            for (int j = 0; j < tama.kaaret.size(); j++) {
+            for (int j = 0; j < tama.kaaret.size(); j++) { 
                 System.out.print(laskuri(laskin, tama.etsiUusipieninkaari()));
                 laskin--;
             }
         }
         return "\nYhteispaino: " + yhteispaino();
     }
-
     private static Scanner lukija = new Scanner(System.in);
-    
+
     public static void main(String[] args) {
         //Testiä
         Painotettuverkko verkko = new Painotettuverkko();
@@ -342,17 +342,15 @@ public class Painotettuverkko {
         //System.out.println(verkko.palautaKaikkikaaret());       
         /*boolean taulu[][] = verkko.palautaVieruslista();
 
-        for (int i = 0; i < verkko.palautaVerkko().size(); i++) {
-            for (int j = 0; j < verkko.palautaVerkko().size(); j++) {
-                System.out.println(taulu[i][j]);
-            }
-        }
+         for (int i = 0; i < verkko.palautaVerkko().size(); i++) {
+         for (int j = 0; j < verkko.palautaVerkko().size(); j++) {
+         System.out.println(taulu[i][j]);
+         }
+         }
         
-        Tarkastaja tarkastaja = new Tarkastaja();
-        System.out.println("yht: " + tarkastaja.syotaVerkko(taulu));
-        
-        System.out.println(verkko);*/
-        
+         Tarkastaja tarkastaja = new Tarkastaja();
+         System.out.println("yht: " + tarkastaja.syotaVerkko(taulu));*/
+
         Long starttiK;
         Long starttiP;
         Long tulosK;
@@ -361,33 +359,34 @@ public class Painotettuverkko {
         Painotettuverkko P;
         Kruskal kruskal;
         Prim prim;
-        
-        Painotettuverkko G = new Painotettuverkko();
-        G.setVerkko(verkko.kopioiVerkko());
-        //System.out.println(G);
-        
-        System.out.println("Ajetaan Primin algoritmi verkolle: " + G.palautaVerkko());
-        System.out.println("Anna lähtösolmu:");
-        int solmu = Integer.parseInt(lukija.nextLine().trim());
-        while (!G.sisaltaakoSolmun(solmu)) {
-            System.out.println("Syötä solmu joka on jo verkossa.");
-            System.out.println(G.palautaVerkko());
-            solmu = Integer.parseInt(lukija.nextLine().trim());
-        }
-        Solmu v = G.palautaSolmu(solmu);
-        starttiP = System.nanoTime();
-        prim = new Prim(G, v);
-        tulosP = System.nanoTime() - starttiP;
-        P = prim.palautaVirittavapuu();
-        System.out.println("Tulos Primillä on: " + tulosP);
-        System.out.println(P);
-        
-        System.out.println("Ajetaan Kruskalin algoritmi verkolle: " + verkko.palautaVerkko());
+
+        System.out.println(verkko);
+        System.out.println(verkko);
+        //System.out.println(verkko);
+
+       /* System.out.println("Ajetaan Kruskalin algoritmi verkolle: " + verkko.palautaVerkko());
         starttiK = System.nanoTime();
         kruskal = new Kruskal(verkko);
         K = kruskal.palautaVirittavapuu();
         tulosK = System.nanoTime() - starttiK;
         System.out.println("Tulos Kruskalilla on: " + tulosK);
         System.out.println(K);
+
+
+        System.out.println("Ajetaan Primin algoritmi verkolle: " + verkko.palautaVerkko());
+        System.out.println("Anna lähtösolmu:");
+        int solmu = Integer.parseInt(lukija.nextLine().trim());
+        while (!verkko.sisaltaakoSolmun(solmu)) {
+            System.out.println("Syötä solmu joka on jo verkossa.");
+            System.out.println(verkko.palautaVerkko());
+            solmu = Integer.parseInt(lukija.nextLine().trim());
+        }
+        Solmu v = verkko.palautaSolmu(solmu);
+        starttiP = System.nanoTime();
+        prim = new Prim(verkko, v);
+        tulosP = System.nanoTime() - starttiP;
+        P = prim.palautaVirittavapuu();
+        System.out.println("Tulos Primillä on: " + tulosP);
+        System.out.println(P);*/
     }
 }

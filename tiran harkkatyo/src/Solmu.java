@@ -19,6 +19,7 @@ class Solmu implements Comparable<Solmu> {
 
     PriorityQueue<Kaari> kaaret; //Minimikeko solmun kaarista.
     PriorityQueue<Kaari> kaymattomatKaaret; //Minimikeko käymättömistä kaarista.
+    PriorityQueue<Kaari> uudet; //Tähän kopioidaan kaaret tulostusta varten, jotta keko ei tyhjene.
     int numero; //Tämä tarkoittaa ikäänkuin solmun nimeä. Numerojärjestystä voidaan käyttää algoritmissa.
     boolean lapikayty; //Onko solmu jo virittävässä puussa.
     int setti; //Mihin metsään solmu kuuluu. On oletuksena sama kuin numero.
@@ -166,8 +167,12 @@ class Solmu implements Comparable<Solmu> {
      * @return
      */
     public Kaari etsiUusipieninkaari() {
-        Kaari pieninKaari = kaymattomatKaaret.poll();
+        Kaari pieninKaari = uudet.poll();
         return pieninKaari;
+    }
+    
+    public void kopioiKaaret() {
+        uudet = new PriorityQueue<Kaari>(kaymattomatKaaret);
     }
 
     /**
