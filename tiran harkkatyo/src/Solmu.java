@@ -18,7 +18,6 @@ import java.util.PriorityQueue;
 class Solmu implements Comparable<Solmu> {
 
     PriorityQueue<Kaari> kaaret; //Minimikeko solmun kaarista.
-    PriorityQueue<Kaari> kaymattomatKaaret; //Minimikeko käymättömistä kaarista.
     PriorityQueue<Kaari> uudet; //Tähän kopioidaan kaaret tulostusta varten, jotta keko ei tyhjene.
     int numero; //Tämä tarkoittaa ikäänkuin solmun nimeä. Numerojärjestystä voidaan käyttää algoritmissa.
     boolean lapikayty; //Onko solmu jo virittävässä puussa.
@@ -29,7 +28,6 @@ class Solmu implements Comparable<Solmu> {
      */
     public Solmu() {
         kaaret = new PriorityQueue<Kaari>();
-        kaymattomatKaaret = new PriorityQueue<Kaari>();
         lapikayty = false;
     }
 
@@ -41,7 +39,6 @@ class Solmu implements Comparable<Solmu> {
     public Solmu(int numero) {
         this.numero = numero;
         kaaret = new PriorityQueue<Kaari>();
-        kaymattomatKaaret = new PriorityQueue<Kaari>();
         lapikayty = false;
         this.setti = numero;
     }
@@ -56,7 +53,6 @@ class Solmu implements Comparable<Solmu> {
     public Solmu(int tama, int naapuri, int paino) {
         this.numero = tama;
         kaaret = new PriorityQueue<Kaari>();
-        kaymattomatKaaret = new PriorityQueue<Kaari>();
         lapikayty = false;
         lisaaKaari(naapuri, paino);
         this.setti = numero;
@@ -121,6 +117,22 @@ class Solmu implements Comparable<Solmu> {
     public PriorityQueue<Kaari> palautaKaaret() {
         return kaaret;
     }
+    
+    /**
+     * Palauttaa kaaret ArrayListin muodossa poistamatta alkuperäisiä kaaria.
+     * 
+     * @return ArraList<Kaari>
+     */
+    
+    public ArrayList<Kaari> palautaKaaret2() {
+        ArrayList<Kaari> kaaret = new ArrayList<Kaari>(); 
+        kopioiKaaret();
+        while (!(uudet.isEmpty())) {
+            Kaari uusi = uudet.poll();
+            kaaret.add(uusi);
+        }
+        return kaaret;
+    }
 
     /**
      * Lisätään kaari, jolla on paino ja päätepisteenä on naapuri. Solmulla voi olla max. 4 kaarta.
@@ -129,13 +141,12 @@ class Solmu implements Comparable<Solmu> {
      * @param paino
      */
     public void lisaaKaari(int naapuri, int paino) {
-        if (kaaret.size() < 4 && kaymattomatKaaret.size() < 4) {
+        if (kaaret.size() < 4) {
             Kaari uusi;
             Solmu solmu;
             solmu = new Solmu(naapuri);
             uusi = new Kaari(this, solmu, paino);
             kaaret.add(uusi);
-            kaymattomatKaaret.add(uusi);
         }
         else {
             System.out.println("Kaaria voi olla max. 4");
@@ -143,36 +154,18 @@ class Solmu implements Comparable<Solmu> {
     }
 
     /**
-     * Kaari, jota ei olla viellä käyty läpi. Max. 4.
-     *
-     * @param naapuri
-     * @param paino
-     */
-    public void lisaaKaymatonkaari(int naapuri, int paino) {
-        if (kaymattomatKaaret.size() < 4) {
-            Kaari uusi;
-            Solmu solmu;
-            solmu = new Solmu(naapuri);
-            uusi = new Kaari(this, solmu, paino);
-            kaymattomatKaaret.add(uusi);
-        }
-        else {
-            System.out.println("Kaaria voi olla max. 4");
-        }
-    }
-
-    /**
-     * Napataan keosta uusi pienin kaari. Kyseinen kaari siis poistuu.
+     * Napataan keosta uusi pienin kaari. Kyseinen kaari siis poistuu, mutta ei kaaret-keosta.
      *
      * @return
      */
     public Kaari etsiUusipieninkaari() {
-        Kaari pieninKaari = uudet.poll();
+        Kaari pieninKaari = this.uudet.poll();
         return pieninKaari;
     }
     
     public void kopioiKaaret() {
-        uudet = new PriorityQueue<Kaari>(kaymattomatKaaret);
+        this.uudet = new PriorityQueue<Kaari>();
+        this.uudet = new PriorityQueue<Kaari>(kaaret);
     }
 
     /**
@@ -194,6 +187,6 @@ class Solmu implements Comparable<Solmu> {
      */
 
     public int compareTo(Solmu solmu) {
-        return (this.kaymattomatKaaret.peek().paino < solmu.kaymattomatKaaret.peek().paino) ? -1 : 1;
+        return (this.kaaret.peek().paino < solmu.kaaret.peek().paino) ? -1 : 1;
     }
 }

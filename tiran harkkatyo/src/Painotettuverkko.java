@@ -78,15 +78,14 @@ public class Painotettuverkko {
      * @return Minimikeko
      */
     public PriorityQueue<Kaari> palautaKaikkikaaret() {
-        PriorityQueue<Kaari> kaaret;
-        kaaret = new PriorityQueue<Kaari>();
+        PriorityQueue<Kaari> kaaret = new PriorityQueue<Kaari>();
         for (int i = 0; i < solmut.size(); i++) {
             Solmu v = solmut.get(i);
-            while (!v.palautaKaaret().isEmpty()) {
-                Kaari e = v.palautaKaaret().poll();
+            v.kopioiKaaret();
+            while (!(v.uudet.isEmpty())) {
+                Kaari e = v.etsiUusipieninkaari();
                 kaaret.add(e);
             }
-            v.setKaaret(kaaret);
         }
         return kaaret;
     }
@@ -97,14 +96,14 @@ public class Painotettuverkko {
      * @return kaaret
      */
     public ArrayList<Kaari> palautaKaikkikaaret2() {
-        ArrayList<Kaari> kaaret;
-        kaaret = new ArrayList<Kaari>();
+        ArrayList<Kaari> kaaret = new ArrayList<Kaari>();
         for (int i = 0; i < solmut.size(); i++) {
             Solmu v = solmut.get(i);
-            while (!v.palautaKaaret().isEmpty()) {
-                kaaret.add(v.palautaKaaret().poll());
+            v.kopioiKaaret();
+            while (!(v.uudet.isEmpty())) {
+                Kaari e = v.etsiUusipieninkaari();
+                kaaret.add(e);
             }
-            v.setKaaret(kaaret);
         }
         return kaaret;
     }
@@ -360,11 +359,7 @@ public class Painotettuverkko {
         Kruskal kruskal;
         Prim prim;
 
-        System.out.println(verkko);
-        System.out.println(verkko);
-        //System.out.println(verkko);
-
-       /* System.out.println("Ajetaan Kruskalin algoritmi verkolle: " + verkko.palautaVerkko());
+       System.out.println("Ajetaan Kruskalin algoritmi verkolle: " + verkko.palautaVerkko());
         starttiK = System.nanoTime();
         kruskal = new Kruskal(verkko);
         K = kruskal.palautaVirittavapuu();
@@ -387,6 +382,14 @@ public class Painotettuverkko {
         tulosP = System.nanoTime() - starttiP;
         P = prim.palautaVirittavapuu();
         System.out.println("Tulos Primillä on: " + tulosP);
-        System.out.println(P);*/
+        System.out.println(P);
+        
+        if (tulosP > tulosK) {
+            double prosenttiK = tulosP * 100;
+            System.out.println("Kruskalin algoritmi oli nopeampi " + prosenttiK);
+        } else {
+            double prosenttiP = tulosK * 100;
+            System.out.println("Primin algoritmi oli nopeampi " + prosenttiP);
+        }
     }
 }

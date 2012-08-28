@@ -39,8 +39,17 @@ public class Tiedostotestaus {
         Scanner file = new Scanner(new File(nimi));
         while (file.hasNextLine()) {
             String actor = file.nextLine();
-            Solmu v1 = new Solmu(actor.charAt(0) - 96, actor.charAt(2) - 96, actor.charAt(4) - 96);
-            verkko.lisaaSolmu(v1);
+            if ((actor.charAt(0)-96)==1) {
+                verkko.lisaaSolmu(actor.charAt(2) - 96);
+            }
+            else if ((actor.charAt(0)-96)==2) {
+                verkko.lisaaKaari(actor.charAt(2) - 96, actor.charAt(4) - 96, actor.charAt(6) - 96);
+            }
+            else if ((actor.charAt(0)-96)==3) {
+                Solmu v = new Solmu(actor.charAt(2) - 96, actor.charAt(4) - 96, actor.charAt(6) - 96);
+                verkko.lisaaSolmu(v);
+            }
+            
         }
     }
 
@@ -56,7 +65,7 @@ public class Tiedostotestaus {
     public static void main(String[] args) {
         try {
             Tiedostotestaus testi = new Tiedostotestaus("src/testi.txt");
-            System.out.println(testi);
+            System.out.println(testi.returnVerkko());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
