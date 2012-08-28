@@ -64,7 +64,7 @@ public class Tiedostotestaus {
 
     public static void main(String[] args) {
         try {
-            Tiedostotestaus testi = new Tiedostotestaus("src/testi.txt");
+            Tiedostotestaus testi = new Tiedostotestaus("src/verkot/testi.txt");
             System.out.println(testi.returnVerkko());
         } catch (FileNotFoundException e) {
             e.printStackTrace();

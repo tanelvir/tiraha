@@ -7,6 +7,7 @@
  *
  * @author Taneli
  */
+import java.io.File;
 import java.util.Scanner;
 import java.lang.System;
 
@@ -139,17 +140,42 @@ public class TiranHarkkatyo {
         lukija.nextLine();
 
         if (tulosP > tulosK) {
-            double prosenttiK = tulosK/tulosP;
-            System.out.println("Kruskalin algoritmi oli nopeampi " + prosenttiK);
+            double prosenttiK = (1 - tulosK/1.0/tulosP)*100;
+            System.out.println("Kruskalin algoritmi oli nopeampi " + prosenttiK + " prosenttia");
         } else {
-            double prosenttiP = tulosP/tulosK;
-            System.out.println("Primin algoritmi oli nopeampi " + prosenttiP);
+            double prosenttiP = (1 - tulosP/1.0/tulosK)*100;
+            System.out.println("Primin algoritmi oli nopeampi " + prosenttiP + " prosenttia");
         }
 
     }
     
+    /**
+     * Mikäli käyttäjä haluaa ottaa jonkin valmiin verkon tiedostona. Se onnistuu.
+     * 
+     */
+
     public static void lueTiedostosta() {
-        
+        File source = new File("src/verkot");
+        listaaTiedostot(source);
+    }
+    
+    /**
+     * Listaa kansiossa olevat tiedostot.
+     * @param polku 
+     */
+
+    public static void listaaTiedostot(File polku) {
+
+        File tiedostot[];
+
+        tiedostot = polku.listFiles();
+
+        for (int i = 0; i < tiedostot.length; i++) {
+            System.out.println(tiedostot[i].toString());
+            if (tiedostot[i].isDirectory()) {
+                listaaTiedostot(tiedostot[i]);
+            }
+        }
     }
 
     /**
@@ -189,10 +215,10 @@ public class TiranHarkkatyo {
             } else {
                 char ekaKirjain = sana.charAt(0);
                 //Katsotaan onko kirjain a,b,c
-                if (ekaKirjain >= 97 || ekaKirjain <= 100) {
+                if (ekaKirjain >= 97 || ekaKirjain <= 101) {
                     return ekaKirjain;
                 } else {
-                    System.out.println("Vain a, b, c, d tai q!");
+                    System.out.println("Vain a, b, c, d, e tai q!");
                     return 'k';
                 }
             }
@@ -211,9 +237,9 @@ public class TiranHarkkatyo {
         char vastaus = 'k';
         String varmistus;
         while (vastaus != 'q') {
-            System.out.println("Tervetuloa! Minkä valinnan haluaisit tehdä? a = lisää solmu verkkoon, "
-                    + "b = lisää kaari verkossa olevaan solmuun, c = testaa algoritmit kyseiselle verkolle"
-                    + ", d = näytä nykyinen verkko, e = testaa tiedostoissa valmiiksi olevaa verkkoa, q = lopeta");
+            System.out.println("Tervetuloa! Minkä valinnan haluaisit tehdä? a = lisää solmu verkkoon, ");
+            System.out.println("b = lisää kaari verkossa olevaan solmuun, c = testaa algoritmit kyseiselle verkolle, ");
+            System.out.println("d = näytä nykyinen verkko, e = testaa tiedostoissa valmiiksi olevaa verkkoa, q = lopeta");
             varmistus = lukija.nextLine();
             vastaus = parseChar(varmistus.trim());
             if (vastaus == 'a') {
@@ -225,6 +251,7 @@ public class TiranHarkkatyo {
             } else if (vastaus == 'd') {
                 System.out.println(verkko);
             } else if (vastaus == 'e') {
+                lueTiedostosta();
             }
         }
     }

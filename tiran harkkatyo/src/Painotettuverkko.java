@@ -385,11 +385,11 @@ public class Painotettuverkko {
         System.out.println(P);
         
         if (tulosP > tulosK) {
-            double prosenttiK = tulosP * 100;
-            System.out.println("Kruskalin algoritmi oli nopeampi " + prosenttiK);
+            double prosenttiK = (1 - tulosK/1.0/tulosP)*100;
+            System.out.println("Kruskalin algoritmi oli nopeampi " + prosenttiK + " prosenttia");
         } else {
-            double prosenttiP = tulosK * 100;
-            System.out.println("Primin algoritmi oli nopeampi " + prosenttiP);
+            double prosenttiP = (1 - tulosP/1.0/tulosK)*100;
+            System.out.println("Primin algoritmi oli nopeampi " + prosenttiP + " prosenttia");
         }
     }
 }
