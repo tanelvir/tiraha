@@ -52,6 +52,10 @@ public class Painotettuverkko {
             lisaaSolmu(uusisolmu.numero);
         }
     }
+    
+    public void setVerkko2(ArrayList<Solmu> verkko) {
+        this.solmut = verkko;
+    }
 
     public ArrayList<Solmu> palautaVerkko() {
         return solmut;
@@ -133,16 +137,13 @@ public class Painotettuverkko {
         for (int i = 0; i < solmut.size(); i++) {
             PriorityQueue<Kaari> uusi = new PriorityQueue();
             Solmu v = solmut.get(i);
-            Kaari kaari = v.palautaKaaret().poll();
-            uusi.add(kaari);
-            while (!v.palautaKaaret().isEmpty()) {
-                int j = kaari.Solmu2().numero - 1;
+            v.kopioiKaaret();
+            while (!(v.uudet.isEmpty())) {
+                Kaari e = v.etsiUusipieninkaari();
+                int j = e.Solmu2().numero - 1;
                 taulu[i][j] = true;
-                kaari = v.palautaKaaret().poll();
-                System.out.println(i + " | " + j);
-                uusi.add(kaari);
+                uusi.add(e);
             }
-            v.setKaaret(uusi);
         }
         return taulu;
     }
@@ -364,7 +365,7 @@ public class Painotettuverkko {
         kruskal = new Kruskal(verkko);
         K = kruskal.palautaVirittavapuu();
         tulosK = System.nanoTime() - starttiK;
-        System.out.println("Tulos Kruskalilla on: " + tulosK);
+        System.out.println("Tulos Kruskalilla on: " + tulosK + " nanosekunttia");
         System.out.println(K);
 
 
@@ -381,7 +382,7 @@ public class Painotettuverkko {
         prim = new Prim(verkko, v);
         tulosP = System.nanoTime() - starttiP;
         P = prim.palautaVirittavapuu();
-        System.out.println("Tulos Primillä on: " + tulosP);
+        System.out.println("Tulos Primillä on: " + tulosP + " nanosekunttia");
         System.out.println(P);
         
         if (tulosP > tulosK) {

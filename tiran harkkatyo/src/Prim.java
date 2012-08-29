@@ -42,20 +42,11 @@ public class Prim {
         siirraKaaret(G.poistaSolmu(pieninkaari.Solmu2().numero));
         T.palautaSolmu(pieninkaari.Solmu2().numero).kaytyLapi();
         lapikaydytsolmut.add(pieninkaari.Solmu2());
+        
+        luoVirittavapuu(G);
 
 
-        while ((G.palautaVerkko().isEmpty()) == false && (kaikkikaaret.isEmpty()) == false) {
-            Kaari pienin = kaikkikaaret.poll();
-            Solmu uusi = pienin.Solmu2();
-            if (T.palautaSolmu(uusi.numero).onkoKayty()==false) {
-                lapikaydytsolmut.add(uusi);
-                siirraKaaret(G.poistaSolmu(uusi.numero));
-                T.lisaaKaari(pienin.Solmu1().numero, uusi.numero, pienin.paino);
-                T.palautaSolmu(uusi.numero).kaytyLapi();
-                G.poistaSolmu(uusi.numero);
-            }
-
-        }
+        
     }
 
     /**
@@ -70,6 +61,31 @@ public class Prim {
             kaikkikaaret.add(kaari);
         }
 
+    }
+    
+    /**
+     * Alkaa luomaan virittävää puuta periaatteella, jossa uusi solmu merkataan käydyksi
+     * ja sen kaaret lisätään kaikkiin kaariin. Tämän jälkeen pienin mahdollinen uuden solmun lisäävä
+     * kaari lisätään virittävään puuhun.
+     * 
+     * @param verkko
+     * @return verkko 
+     */
+    
+    public Painotettuverkko luoVirittavapuu(Painotettuverkko verkko) {
+        while ((verkko.palautaVerkko().isEmpty()) == false && (kaikkikaaret.isEmpty()) == false) {
+            Kaari pienin = kaikkikaaret.poll();
+            Solmu uusi = pienin.Solmu2();
+            if (T.palautaSolmu(uusi.numero).onkoKayty()==false) {
+                lapikaydytsolmut.add(uusi);
+                siirraKaaret(verkko.poistaSolmu(uusi.numero));
+                T.lisaaKaari(pienin.Solmu1().numero, uusi.numero, pienin.paino);
+                T.palautaSolmu(uusi.numero).kaytyLapi();
+                verkko.poistaSolmu(uusi.numero);
+            }
+
+        }
+        return verkko;
     }
     
     public Painotettuverkko palautaVirittavapuu() {

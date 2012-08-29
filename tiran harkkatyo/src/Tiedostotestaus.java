@@ -21,11 +21,21 @@ public class Tiedostotestaus {
     /**
      * Syötetään tiedoston nimi.
      *
-     * @param fileName
+     * @param nimi
      * @throws FileNotFoundException
      */
-    public Tiedostotestaus(String fileName) throws FileNotFoundException {
-        lueTiedosto(fileName);
+    public Tiedostotestaus(String nimi) throws FileNotFoundException {
+        lueTiedosto(nimi);
+    }
+    
+    /**
+     * 
+     * @param tiedosto
+     * @throws FileNotFoundException 
+     */
+    
+    public Tiedostotestaus(File tiedosto) throws FileNotFoundException {
+        lueTiedosto(tiedosto);
     }
 
     /**
@@ -37,6 +47,32 @@ public class Tiedostotestaus {
     public void lueTiedosto(String nimi) throws FileNotFoundException {
         verkko = new Painotettuverkko();
         Scanner file = new Scanner(new File(nimi));
+        while (file.hasNextLine()) {
+            String actor = file.nextLine();
+            if ((actor.charAt(0)-96)==1) {
+                verkko.lisaaSolmu(actor.charAt(2) - 96);
+            }
+            else if ((actor.charAt(0)-96)==2) {
+                verkko.lisaaKaari(actor.charAt(2) - 96, actor.charAt(4) - 96, actor.charAt(6) - 96);
+            }
+            else if ((actor.charAt(0)-96)==3) {
+                Solmu v = new Solmu(actor.charAt(2) - 96, actor.charAt(4) - 96, actor.charAt(6) - 96);
+                verkko.lisaaSolmu(v);
+            }
+            
+        }
+    }
+    
+    /**
+     * Luetaan tiedosto while file.hasNextLine avulla. Eri parametrit vaan.
+     * 
+     * @param tiedosto
+     * @throws FileNotFoundException 
+     */
+    
+    public void lueTiedosto(File tiedosto) throws FileNotFoundException {
+        verkko = new Painotettuverkko();
+        Scanner file = new Scanner(tiedosto);
         while (file.hasNextLine()) {
             String actor = file.nextLine();
             if ((actor.charAt(0)-96)==1) {

@@ -141,7 +141,7 @@ class Solmu implements Comparable<Solmu> {
      * @param paino
      */
     public void lisaaKaari(int naapuri, int paino) {
-        if (kaaret.size() < 4) {
+        if (kaaret.size() < 4 && sisaltaakoKaaren(naapuri)==false) {
             Kaari uusi;
             Solmu solmu;
             solmu = new Solmu(naapuri);
@@ -151,6 +151,25 @@ class Solmu implements Comparable<Solmu> {
         else {
             System.out.println("Kaaria voi olla max. 4");
         }
+    }
+    
+    /**
+     * Katsoo onko kahden solmun välillä kaarta. Jos on palautus on true.
+     * 
+     * @param naapuri
+     * @return true/false
+     */
+    
+    public boolean sisaltaakoKaaren(int naapuri) {
+        ArrayList<Kaari> kaikki = new ArrayList<Kaari>();
+        kaikki = palautaKaaret2();
+        for (int i = 0; i < kaikki.size(); i++) {
+            Kaari e = kaikki.get(i);
+            if (this.numero==e.Solmu1().numero && naapuri==e.Solmu2().numero) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

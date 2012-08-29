@@ -22,7 +22,6 @@ public class Tarkastaja {
     }
  
     public boolean syotaVerkko(boolean[][] verkko) {
-        // Toteuta minut
         boolean[] kayty = new boolean[verkko.length];
         dfs(verkko, kayty, 0);
  
@@ -44,56 +43,34 @@ public class Tarkastaja {
             }
         }
     }
- 
+    
+    
     public static void main(String[] args) {
-        
-        boolean[][] esim1 = new boolean[][]
-    {
-        {false, true,  true,  true,  false},
-        {true,  false, true,  true,  true},
-        {true,  true,  false, false, false},
-        {true,  true,  false, false, true},
-        {false, true,  false, true,  false}
-    };
- 
-    boolean[][] esim2 = new boolean[][]
-    {
-        {false, false, true,  false, false},
-        {false, false, false, true,  true},
-        {true,  false, false, false, false},
-        {false, true,  false, false, true},
-        {false, true,  false, true,  false}
-    };
-        
-        Tarkastaja tarkastaja = new Tarkastaja();
-        System.out.println(tarkastaja.syotaVerkko(esim1));
-        System.out.println(tarkastaja.syotaVerkko(esim2));
-    }
-    
-    
-    /*public static void main(String[] args) {
+        //Testiä
         Painotettuverkko verkko = new Painotettuverkko();
-        verkko.lisaaSolmu(1, 2, 1);
-        verkko.palautaVerkko().get(0).lisaaKaari(3, 3);
-        verkko.lisaaSolmu(2, 5, 4);
-        verkko.palautaVerkko().get(1).lisaaKaari(6, 5);
-        verkko.palautaVerkko().get(1).lisaaKaari(1, 1);
-        verkko.lisaaSolmu(3, 1, 3);
-        verkko.palautaVerkko().get(2).lisaaKaari(6, 1);
-        verkko.palautaVerkko().get(2).lisaaKaari(7, 3);
-        verkko.palautaVerkko().get(2).lisaaKaari(4, 2);
-        verkko.lisaaSolmu(4, 3, 2);
-        verkko.palautaVerkko().get(3).lisaaKaari(7, 5);
-        verkko.lisaaSolmu(5, 2, 4);
-        verkko.palautaVerkko().get(4).lisaaKaari(6, 1);
-        verkko.lisaaSolmu(6, 5, 1);
-        verkko.palautaVerkko().get(5).lisaaKaari(2, 5);
-        verkko.palautaVerkko().get(5).lisaaKaari(3, 1);
-        verkko.palautaVerkko().get(5).lisaaKaari(7, 4);
-        verkko.lisaaSolmu(7, 6, 4);
-        verkko.palautaVerkko().get(6).lisaaKaari(3, 3);
-        verkko.palautaVerkko().get(6).lisaaKaari(4, 5);
-        //Tarkastaja tarkastaja = new Tarkastaja(verkko);
+        verkko.lisaaSolmu(1);
+        verkko.lisaaSolmu(2);
+        verkko.lisaaSolmu(3);
+        verkko.lisaaSolmu(4);
+        verkko.lisaaSolmu(5);
+        verkko.lisaaSolmu(6);
+        verkko.lisaaSolmu(7);
+        verkko.lisaaKaari(1, 2, 1);
+        verkko.lisaaKaari(1, 3, 3);
+        verkko.lisaaKaari(2, 5, 4);
+        verkko.lisaaKaari(2, 6, 5);
+        verkko.lisaaKaari(3, 6, 1);
+        verkko.lisaaKaari(3, 7, 3);
+        verkko.lisaaKaari(3, 4, 2);
+        verkko.lisaaKaari(4, 7, 5);
+        verkko.lisaaKaari(5, 6, 1);
+        verkko.lisaaKaari(6, 7, 4);
+        Tarkastaja tarkastaja = new Tarkastaja();
+        System.out.println(tarkastaja.syotaVerkko(verkko.palautaVieruslista()));
+        System.out.println(tarkastaja.syotaVerkko(verkko.palautaVieruslista()));
+        System.out.println(tarkastaja.syotaVerkko(verkko.palautaVieruslista()));
+        System.out.println(tarkastaja.syotaVerkko(verkko.palautaVieruslista()));
         
-    }*/
+        
+    }
 }
