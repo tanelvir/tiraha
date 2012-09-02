@@ -17,7 +17,7 @@ class Kaari implements Comparable<Kaari> {
     int paino;
 
     /**
-     * Kaari tuntee lähtösolmun ja sen naapurisolmun.
+     * Kaari tuntee lähtösolmun ja sen naapurisolmun sekä painonsa.
      *
      */
     public Kaari(Solmu solmu1, Solmu solmu2, int paino) {

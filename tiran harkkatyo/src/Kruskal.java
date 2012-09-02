@@ -1,4 +1,4 @@
-
+    
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -27,7 +27,6 @@ public class Kruskal {
     public Kruskal(Painotettuverkko G) {
 
         kaikkikaaret = G.palautaKaikkikaaret();
-        T = new Painotettuverkko();
         T = new Painotettuverkko();
         T.setVerkko(G.palautaVerkko());
         lapikaymattomatkaaret = new PriorityQueue<Kaari>();

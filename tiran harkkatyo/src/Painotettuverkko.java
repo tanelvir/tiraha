@@ -21,14 +21,12 @@ import java.util.Scanner;
 public class Painotettuverkko {
 
     ArrayList<Solmu> solmut; //Solmut puu-rakenteen muodossa.
-    ArrayList<Integer> solmujennumerot; //Lista solmuista jota on verkossa.
 
     /**
      * Luodaan kokonaan uusi verkko
      */
     public Painotettuverkko() {
         solmut = new ArrayList<Solmu>();
-        solmujennumerot = new ArrayList<Integer>();
     }
 
     /**
@@ -52,7 +50,12 @@ public class Painotettuverkko {
             lisaaSolmu(uusisolmu.numero);
         }
     }
-    
+
+    /**
+     * Jättää viitteen tähän verkkoon.
+     *
+     * @param verkko
+     */
     public void setVerkko2(ArrayList<Solmu> verkko) {
         this.solmut = verkko;
     }
@@ -79,7 +82,7 @@ public class Painotettuverkko {
     /**
      * Palauttaa koko verkon kaaret. Kaaret eivät poistu vaan säilyvät.
      *
-     * @return Minimikeko
+     * @return kaaret
      */
     public PriorityQueue<Kaari> palautaKaikkikaaret() {
         PriorityQueue<Kaari> kaaret = new PriorityQueue<Kaari>();
@@ -113,9 +116,10 @@ public class Painotettuverkko {
     }
 
     /**
-     * Tämä ei toimi... miksiköhän?
+     * Laskee verkon yhteispainon. Eli siis paljon kaikki kaaret painavat
+     * yhteensä.
      *
-     * @return
+     * @return summa
      */
     public int yhteispaino() {
         int summa = 0;
@@ -130,7 +134,7 @@ public class Painotettuverkko {
     /**
      * Palautetaan vieruslista, josta voidaan tarkistaa onko verkko yhtenäinen.
      *
-     * @return
+     * @return boolean [][]
      */
     public boolean[][] palautaVieruslista() {
         boolean[][] taulu = new boolean[solmut.size()][solmut.size()];
@@ -166,12 +170,10 @@ public class Painotettuverkko {
         if (sisaltaakoSolmun(solmu) == false) {
             uusi.lisaaKaari(naapuri, paino);
             solmut.add(uusi);
-            solmujennumerot.add(uusi.numero);
         }
         if (sisaltaakoSolmun(naapuri) == false) {
             viereinen.lisaaKaari(solmu, paino);
             solmut.add(viereinen);
-            solmujennumerot.add(viereinen.numero);
         }
 
     }
@@ -186,7 +188,6 @@ public class Painotettuverkko {
         if (sisaltaakoSolmun(solmu) == false) {
             v = new Solmu(solmu);
             solmut.add(v);
-            solmujennumerot.add(v.numero);
         }
     }
 
@@ -198,7 +199,6 @@ public class Painotettuverkko {
     public void lisaaSolmu(Solmu solmu) {
         if (sisaltaakoSolmun(solmu.numero) == false) {
             solmut.add(solmu);
-            solmujennumerot.add(solmu.numero);
         }
     }
 
@@ -309,7 +309,7 @@ public class Painotettuverkko {
             tama.kopioiKaaret();
             int laskin = tama.kaaret.size();
             System.out.print("\n|S: " + tama.numero);
-            for (int j = 0; j < tama.kaaret.size(); j++) { 
+            for (int j = 0; j < tama.kaaret.size(); j++) {
                 System.out.print(laskuri(laskin, tama.etsiUusipieninkaari()));
                 laskin--;
             }
@@ -339,17 +339,6 @@ public class Painotettuverkko {
         verkko.lisaaKaari(5, 6, 1);
         verkko.lisaaKaari(6, 7, 4);
 
-        //System.out.println(verkko.palautaKaikkikaaret());       
-        /*boolean taulu[][] = verkko.palautaVieruslista();
-
-         for (int i = 0; i < verkko.palautaVerkko().size(); i++) {
-         for (int j = 0; j < verkko.palautaVerkko().size(); j++) {
-         System.out.println(taulu[i][j]);
-         }
-         }
-        
-         Tarkastaja tarkastaja = new Tarkastaja();
-         System.out.println("yht: " + tarkastaja.syotaVerkko(taulu));*/
 
         Long starttiK;
         Long starttiP;
@@ -360,7 +349,7 @@ public class Painotettuverkko {
         Kruskal kruskal;
         Prim prim;
 
-       System.out.println("Ajetaan Kruskalin algoritmi verkolle: " + verkko.palautaVerkko());
+        System.out.println("Ajetaan Kruskalin algoritmi verkolle: " + verkko.palautaVerkko());
         starttiK = System.nanoTime();
         kruskal = new Kruskal(verkko);
         K = kruskal.palautaVirittavapuu();
@@ -384,12 +373,12 @@ public class Painotettuverkko {
         P = prim.palautaVirittavapuu();
         System.out.println("Tulos Primillä on: " + tulosP + " nanosekunttia");
         System.out.println(P);
-        
+
         if (tulosP > tulosK) {
-            double prosenttiK = (1 - tulosK/1.0/tulosP)*100;
+            double prosenttiK = (1 - tulosK / 1.0 / tulosP) * 100;
             System.out.println("Kruskalin algoritmi oli nopeampi " + prosenttiK + " prosenttia");
         } else {
-            double prosenttiP = (1 - tulosP/1.0/tulosK)*100;
+            double prosenttiP = (1 - tulosP / 1.0 / tulosK) * 100;
             System.out.println("Primin algoritmi oli nopeampi " + prosenttiP + " prosenttia");
         }
     }

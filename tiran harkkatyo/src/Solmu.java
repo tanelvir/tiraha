@@ -15,7 +15,7 @@ import java.util.PriorityQueue;
  * tuntee päätesolmunsa. Solmulla voi olla setti, eli siis metsä johon se kuuluu.
  *
  */
-class Solmu implements Comparable<Solmu> {
+class Solmu {
 
     PriorityQueue<Kaari> kaaret; //Minimikeko solmun kaarista.
     PriorityQueue<Kaari> uudet; //Tähän kopioidaan kaaret tulostusta varten, jotta keko ei tyhjene.
@@ -197,15 +197,5 @@ class Solmu implements Comparable<Solmu> {
     @Override
     public String toString() {
         return "" + this.numero;
-    }
-    
-    /**
-     * Solmun vertailtavuus tullaan varmaan poistamaan. 
-     * @param solmu
-     * @return 
-     */
-
-    public int compareTo(Solmu solmu) {
-        return (this.kaaret.peek().paino < solmu.kaaret.peek().paino) ? -1 : 1;
     }
 }

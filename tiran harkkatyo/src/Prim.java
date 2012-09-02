@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Prim {
 
     ArrayList<Solmu> lapikaydytsolmut;
-    Painotettuverkko T;
+    Painotettuverkko T; //Virittävä puu.
     Kaari pieninkaari;
     PriorityQueue<Kaari> kaikkikaaret;
 
